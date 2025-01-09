@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace UserApi.Model
 {
@@ -16,18 +17,12 @@ namespace UserApi.Model
             { return _HashPassword; }
             set
             {
-                using (SHA256 sha256Hash = SHA256.Create())
-                {
-                    byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(value));
-                    StringBuilder builder = new StringBuilder();
-                    foreach (byte b in bytes)
-                    {
-                        builder.Append(b.ToString("x2")); // Convert to hexadecimal string
-                    }
-                    _HashPassword = builder.ToString();
-                }
+                _HashPassword = value;
             }
         }
+
+        public static string StringSha256Hash(string text) =>
+        string.IsNullOrEmpty(text) ? string.Empty : BitConverter.ToString(new System.Security.Cryptography.SHA256Managed().ComputeHash(System.Text.Encoding.UTF8.GetBytes(text))).Replace("-", string.Empty);
     }
 
     public class UserCreate
