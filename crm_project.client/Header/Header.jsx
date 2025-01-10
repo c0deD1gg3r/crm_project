@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 import { IoSearch } from "react-icons/io5";
+import Logo from '../Img/LogoLawyer10.png';
 
 const Header = () => {
   const buttons = document.querySelectorAll(".btn");
@@ -23,7 +24,7 @@ const Header = () => {
       <div style={{ display: 'flex' }}>
         <div>
           <NavLink to='/' className='mainPageHeader'>
-            <h1 style={{ color: 'rgba(255, 255, 255, 0.87)', fontWeight: 450 }}>A1 GROUP</h1>
+            <img src={Logo} alt="" />
           </NavLink>
         </div>
 
