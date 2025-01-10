@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UserApi.Model;
+using TaskApi.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<UserContext>(opt =>
     opt.UseInMemoryDatabase("UserLists"));
+
+builder.Services.AddDbContext<TaskContext>(opt =>
+    opt.UseInMemoryDatabase("TaskList"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
