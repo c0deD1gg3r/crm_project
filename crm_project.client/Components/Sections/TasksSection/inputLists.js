@@ -39,7 +39,7 @@ export const inputList = [
     title: 'Важность',
   },
 ];
-п
+
 export const inputList2 = [
   {
     id: '0',
