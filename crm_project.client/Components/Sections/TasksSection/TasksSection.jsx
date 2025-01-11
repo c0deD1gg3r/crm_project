@@ -11,8 +11,8 @@ const TasksSection = () => {
   const [isActive, setIsActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]); // Изменено
-  const [inputValues, setInputValues] = useState({}); // Объект для значений инпутов
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [inputValues, setInputValues] = useState({});
 
   const Open = () => {
     setIsOpen(!isOpen);
@@ -54,6 +54,15 @@ const TasksSection = () => {
       ...prev,
       [title]: value
     }));
+  };
+
+  const removeCheckbox = (title) => {
+    setSelectedCheckboxes(prev => prev.filter(item => item !== title));
+    setInputValues(prev => {
+      const newInputValues = { ...prev };
+      delete newInputValues[title];
+      return newInputValues;
+    });
   };
 
   return (
@@ -98,14 +107,16 @@ const TasksSection = () => {
                   <div className="secondContentTasks">
                     <div>
                       {selectedCheckboxes.map((checkbox) => (
-                        <div key={checkbox}>
-                          <h4>Хуй</h4>
+                        <div className="titleCheckboxBlock" key={checkbox}>
+                          <h4>{checkbox}</h4>
                           <input
                             type="text"
                             value={inputValues[checkbox] || ''}
                             onChange={(e) => handleInputChange(checkbox, e.target.value)}
                             placeholder="Введите значение"
+                            className="mainInput"
                           />
+                          <button className="btnTitleCheckboxBlock" onClick={() => removeCheckbox(checkbox)}>&#65794;</button>
                         </div>
                       ))}
                     </div>
