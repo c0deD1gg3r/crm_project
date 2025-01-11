@@ -9,7 +9,7 @@ const Login = () => {
       <div>
         <h1 style={{ marginTop: '3rem' }}>Войти</h1>
 
-        <div className='inputContainer'>
+        <div className='inputContainerLogIN'>
           <FaUser className='iconInputLogIN' />
           <input
             type="text"
@@ -17,7 +17,7 @@ const Login = () => {
             className='inputLogIN'
           />
         </div>
-        <div className='inputContainer'>
+        <div className='inputContainerLogIN'>
           <FaLock className='iconInputLogIN' />
           <input
             type="password"
