@@ -42,11 +42,7 @@ const Header = () => {
 
       <div style={{ display: 'flex' }}>
         <NavLink to='/Login'>
-          <button className='btn'>Войти</button>
-        </NavLink>
-
-        <NavLink to='/Register'>
-          <button className='btn'>Зарегистрироваться</button>
+          <button style={{ width: '5vw' }} className='btn'>Войти</button>
         </NavLink>
       </div>
     </div>

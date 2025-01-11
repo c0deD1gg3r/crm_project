@@ -202,14 +202,16 @@
 }
 
 .listsField.open {
+  padding: 10px;
   display: flex;
   flex-wrap: wrap;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Автоматически создаем столбцы */
-  gap: 15px; /* Расстояние между элементами */
+  width: 40vw; 
+  gap: 15px; 
   position: absolute;
   background-color: #fff;
   z-index: 10000000;
   text-align: left;
+  border-radius: 5px;
 }
 
 .listFieldMap1 {
@@ -218,10 +220,31 @@
   padding: 5px 15px; 
 }
 
+.listFieldMap1 li {
+  font-size: 12px;
+}
+
 .listsFieldDirections1 {
   display: grid;
   flex-wrap: wrap;
   flex: 1 1 0;
+}
+
+.inputILists3 {
+  position: relative;
+  top: -10%;
+  right: 3%;
+}
+
+.inputILists2 {
+  position: relative;
+  top: -10%;
+  right: 3%;
+}
+
+.inputILists1{
+  position: relative;
+  right: 3%;
 }
 
 /* .listFieldMap1:nth-child(n+8) {
