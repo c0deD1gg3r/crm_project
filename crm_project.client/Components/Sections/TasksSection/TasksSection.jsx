@@ -4,13 +4,35 @@ import { FaGear } from "react-icons/fa6";
 import { BsFillLightningFill } from "react-icons/bs";
 import './TasksSection.css';
 import { useState, useRef, useEffect } from "react";
-import { inputList, inputList2 } from "./inputLists";
+import { inputList, inputList2, inputList3 } from "./inputLists";
 
 const TasksSection = () => {
   const [clearInputText, setClearInputText] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef(null); // Создаем реф для контейнера
+  const containerRef = useRef(null);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [inputValues, setInputValues] = useState({});
+
+  const loginAction = (e) => {
+    setValidationErrors({});
+    e.preventDefault();
+    setIsSubmitting(true);
+    let payload = { email: email, password: password, };
+    axios.post('/api/login', payload)
+      .then((r) => {
+        setIsSubmitting(false);
+        localStorage.setItem('token', r.data.token);
+        navigate("/dashboard");
+      })
+      .catch((e) => {
+        setIsSubmitting(false);
+        if (e.response.data.errors != undefined) {
+          console.log(e.response.data.errors);
+        }
+      });
+  };
+
 
   const Open = () => {
     setIsOpen(!isOpen);
@@ -30,12 +52,43 @@ const TasksSection = () => {
     }
   };
 
+  // Отслеживание, чтобы не закрывалась форма добавление полей
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const handleCheckboxChange = (title) => {
+    setSelectedCheckboxes(prev => {
+      if (prev.includes(title)) {
+        return prev.filter(item => item !== title);
+      } else {
+        return [...prev, title];
+      }
+    });
+  };
+
+  const handleInputChange = (title, value) => {
+    setInputValues(prev => ({
+      ...prev,
+      [title]: value
+    }));
+  };
+
+
+  // Удаление чекбокса
+
+  const removeCheckbox = (title) => {
+    setSelectedCheckboxes(prev => prev.filter(item => item !== title));
+    setInputValues(prev => {
+      const newInputValues = { ...prev };
+      delete newInputValues[title];
+      return newInputValues;
+    });
+  };
 
   return (
     <div style={{ marginTop: '20px' }}>
@@ -77,31 +130,73 @@ const TasksSection = () => {
                     {/*  */}
                   </div>
                   <div className="secondContentTasks">
+                    <div>
+                      {selectedCheckboxes.map((checkbox) => (
+                        <div className="titleCheckboxBlock" key={checkbox}>
+                          <h4>{checkbox}</h4>
+                          <input
+                            type="text"
+                            value={inputValues[checkbox] || ''}
+                            onChange={(e) => handleInputChange(checkbox, e.target.value)}
+                            placeholder="Введите значение"
+                            className="mainInput"
+                          />
+                          <button className="btnTitleCheckboxBlock" onClick={() => removeCheckbox(checkbox)}>&#65794;</button>
+                        </div>
+                      ))}
+                    </div>
                     <div className="btnAddFieldMainBlock">
                       <button className={`btnAddField ${!isOpen ? 'active' : ''}`} onClick={Open}>Добавить поле</button>
                       <div className={`listsField ${!isOpen ? 'open' : ''}`}>
                         <div className="listsFieldDirections1">
-                          {inputList.map((iList) => {
-                            return (
-                              <div key={iList.id} className="listFieldMap1">
-                                <ul style={{ listStyleType: 'none' }}>
-                                  <li>{iList.title}</li>
-                                </ul>
-                              </div>
-                            );
-                          })}
+                          {inputList.map((iList) => (
+                            <div key={iList.id} className="listFieldMap1">
+                              <input
+                                type="checkbox"
+                                className="inputILists1"
+                                checked={selectedCheckboxes.includes(iList.title)}
+                                onChange={() => handleCheckboxChange(iList.title)}
+                                id={iList.id}
+                              />
+                              <ul style={{ listStyleType: 'none' }}>
+                                <li><label htmlFor={iList.id}>{iList.title}</label></li>
+                              </ul>
+                            </div>
+                          ))}
                         </div>
 
                         <div className="listsFieldDirections1">
-                          {inputList2.map((iList2) => {
-                            return (
-                              <div key={iList2.id} className="listFieldMap1">
-                                <ul style={{ listStyleType: 'none' }}>
-                                  <li>{iList2.title}</li>
-                                </ul>
-                              </div>
-                            );
-                          })}
+                          {inputList2.map((iList2) => (
+                            <div key={iList2.id} className="listFieldMap1">
+                              <input
+                                type="checkbox"
+                                className="inputILists2"
+                                checked={selectedCheckboxes.includes(iList2.title)}
+                                onChange={() => handleCheckboxChange(iList2.title)}
+                                id={iList2.title}
+                              />
+                              <ul style={{ listStyleType: 'none' }}>
+                                <li><label htmlFor={iList2.title}>{iList2.title}</label></li>
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="listsFieldDirections1">
+                          {inputList3.map((iList3) => (
+                            <div key={iList3.id} className="listFieldMap1">
+                              <input
+                                type="checkbox"
+                                className="inputILists3"
+                                checked={selectedCheckboxes.includes(iList3.title)}
+                                onChange={() => handleCheckboxChange(iList3.title)}
+                                id={iList3.title}
+                              />
+                              <ul style={{ listStyleType: 'none' }}>
+                                <li><label htmlFor={iList3.title}>{iList3.title}</label></li>
+                              </ul>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
