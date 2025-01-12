@@ -14,6 +14,26 @@ const TasksSection = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [inputValues, setInputValues] = useState({});
 
+  const loginAction = (e) => {
+    setValidationErrors({});
+    e.preventDefault();
+    setIsSubmitting(true);
+    let payload = { email: email, password: password, };
+    axios.post('/api/login', payload)
+      .then((r) => {
+        setIsSubmitting(false);
+        localStorage.setItem('token', r.data.token);
+        navigate("/dashboard");
+      })
+      .catch((e) => {
+        setIsSubmitting(false);
+        if (e.response.data.errors != undefined) {
+          console.log(e.response.data.errors);
+        }
+      });
+  };
+
+
   const Open = () => {
     setIsOpen(!isOpen);
   };
@@ -31,6 +51,8 @@ const TasksSection = () => {
       setIsActive(false);
     }
   };
+
+  // Отслеживание, чтобы не закрывалась форма добавление полей
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -55,6 +77,9 @@ const TasksSection = () => {
       [title]: value
     }));
   };
+
+
+  // Удаление чекбокса
 
   const removeCheckbox = (title) => {
     setSelectedCheckboxes(prev => prev.filter(item => item !== title));
