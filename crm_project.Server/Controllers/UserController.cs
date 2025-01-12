@@ -21,6 +21,7 @@ namespace UserApi.Controllers
             UserApi.Model.DefaultUser UserCreating = new UserApi.Model.DefaultUser();
 
             UserCreating.Password = user.Password;
+            UserCreating.Password = DefaultUser.StringSha256Hash(UserCreating.Password);
 
             UserCreating.Name = user.Name;
 
@@ -38,6 +39,11 @@ namespace UserApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserApi.Model.DefaultUser>>> GetUsers()
         {
+            if (HttpContext.User.Identity.IsAuthenticated == false)
+            {
+                return Unauthorized();
+            }
+
             return await _userContext.Users.Select(x => x).ToListAsync();
         }
     }
