@@ -18,11 +18,6 @@ namespace UserApi.Controllers
             this.userContext = userContext;
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult> LoginCookie(string cookie)
-        //{
-        //}
-
         [HttpPost]
         public async Task<ActionResult> Login(string username, string password)
         {
@@ -67,6 +62,24 @@ namespace UserApi.Controllers
             }
 
             return BadRequest();
+        }
+
+        [Route("~/Logout")]
+        [HttpDelete]
+        public async Task<IActionResult> Out()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return BadRequest();
+            }
+
+            await HttpContext.SignOutAsync();
+            return Ok();
         }
     }
 }
