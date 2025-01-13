@@ -3,6 +3,7 @@ import { FaUser } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa";
 import axios from 'axios';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Login = () => {
   const [name, setName] = useState('');
@@ -25,7 +26,7 @@ const Login = () => {
   };
 
   const goToMain = () => {
-    // Main page
+    // Возврат на главную страничку
   };
 
   return (
