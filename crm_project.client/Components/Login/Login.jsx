@@ -25,7 +25,7 @@ const Login = () => {
   };
 
   const goToMain = () => {
-    // Main page
+    // Возврат на главную страничку
   };
 
   return (
