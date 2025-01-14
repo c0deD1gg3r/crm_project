@@ -1,6 +1,6 @@
 .loginMainContentBlock {
   max-width: 500px;
-  height: 50vh;
+  height: fit-content;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -16,7 +16,7 @@
   border-bottom: 1px solid black;
   margin-bottom: 3rem;
   padding: 0 0 15px 0;
-  
+  color: #fff;
 }
 
 .iconInputLogIN {
@@ -27,11 +27,13 @@
 .inputLogIN {
   border: none;
   background-color: transparent;
+  color: #fff;
 }
 
 .inputLogIN::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.8);
   opacity: 0.9;
+  color: #fff;
 }
 
 .inputLogIN:focus {

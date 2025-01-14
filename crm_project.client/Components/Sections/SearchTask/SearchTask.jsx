@@ -2,11 +2,11 @@ import { IoSearch } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { FaGear } from "react-icons/fa6";
 import { BsFillLightningFill } from "react-icons/bs";
-import './TasksSection.css';
+import './SearchTask.css';
 import { useState, useRef, useEffect } from "react";
 import { inputList, inputList2, inputList3 } from "./inputLists";
 
-const TasksSection = () => {
+const SearchTask = () => {
   const [clearInputText, setClearInputText] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -225,4 +225,4 @@ const TasksSection = () => {
   );
 };
 
-export default TasksSection;
+export default SearchTask;

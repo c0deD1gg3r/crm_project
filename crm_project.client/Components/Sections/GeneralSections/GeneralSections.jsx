@@ -1,11 +1,13 @@
 import Header from "../../../Header/Header";
-import TasksSection from "../TasksSection/TasksSection";
+import SearchTask from "../SearchTask/SearchTask";
+import HeadListTask from "../HeadListTask/HeadListTask";
 
 const GeneralSections = () => {
   return (
     <>
       <Header />
-      <TasksSection />
+      <SearchTask />
+      <HeadListTask />
     </>
   );
 };

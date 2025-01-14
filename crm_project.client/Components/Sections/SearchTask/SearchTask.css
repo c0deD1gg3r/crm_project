@@ -47,7 +47,7 @@
 .inputTasks {
   margin-top: 5px;
   width: 45vw;
-  height: 40px;
+  height: 47px;
   border-radius: 5px;
   padding: 0px 0px 0px 15px;
   border: none;
@@ -69,20 +69,19 @@
 
 .iconSeachTasks {
   position: absolute;
-  right: 35px; 
-  transform: translateY(-50%); 
+  right: 10px; 
   color: rgba(0, 0, 0, 0.3); 
-  font-size: 20px;
-  top: 40%;
+  font-size: 20px; 
+  margin-top: 18px;
+  margin-right: 25px;
 }
 
 .iconCrossTasks {
   position: absolute;
   right: 10px; 
-  transform: translateY(-50%); 
   color: rgba(0, 0, 0, 0.3); 
   font-size: 20px; 
-  top: 40%;
+  margin-top: 18px;
 }
 
 .iconCrossTasks1 {
