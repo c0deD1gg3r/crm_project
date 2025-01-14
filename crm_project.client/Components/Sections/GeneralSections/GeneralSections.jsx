@@ -1,6 +1,7 @@
 import Header from "../../../Header/Header";
 import SearchTask from "../SearchTask/SearchTask";
 import HeadListTask from "../HeadListTask/HeadListTask";
+import TasksSection from "../TasksSection/TasksSection";
 
 const GeneralSections = () => {
   return (
@@ -8,6 +9,7 @@ const GeneralSections = () => {
       <Header />
       <SearchTask />
       <HeadListTask />
+      <TasksSection />
     </>
   );
 };

@@ -68,7 +68,7 @@ const SearchTask = () => {
     };
   }, []);
 
-  // Проверка чекбокса есть/нет, если то при нажатие отрисует
+  // Проверка чекбокса есть/нет, если то при нажатие отрисует инпут
 
   const handleCheckboxChange = (title) => {
     setSelectedCheckboxes(prev => {
@@ -138,7 +138,7 @@ const SearchTask = () => {
               {isActive && (
                 <div className="mainContentTasks">
                   <div className="firstContentTasks">
-                    {/*  */}
+                    {/* Не помню что должно быть, но на всякий случай оставлю */}
                   </div>
                   <div className="secondContentTasks">
                     <div>
