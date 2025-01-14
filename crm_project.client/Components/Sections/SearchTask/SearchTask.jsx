@@ -33,18 +33,25 @@ const SearchTask = () => {
       });
   };
 
+  // Не помню для чего, но без этого код не работает(вроде, проверять не стану)
 
   const Open = () => {
     setIsOpen(!isOpen);
   };
 
+  // Не помню для чего, но без этого код не работает(вроде, проверять не стану)
+
   const Active = () => {
     setIsActive(true);
   };
 
+
+  // Очистка текстового поля инпута
   const clearInput = () => {
     setClearInputText('');
   };
+
+  // Закрывает инпут вне контекста, а иначе не пашит
 
   const handleClickOutside = (event) => {
     if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -52,7 +59,7 @@ const SearchTask = () => {
     }
   };
 
-  // Отслеживание, чтобы не закрывалась форма добавление полей
+  // Закрывает инпут вне контекста, а иначе не пашит
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -60,6 +67,8 @@ const SearchTask = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // Проверка чекбокса есть/нет, если то при нажатие отрисует
 
   const handleCheckboxChange = (title) => {
     setSelectedCheckboxes(prev => {
@@ -70,6 +79,8 @@ const SearchTask = () => {
       }
     });
   };
+
+  // Отрисовка названия выбранного чекбокса с инпутом(Аналог handleCheckboxChange)
 
   const handleInputChange = (title, value) => {
     setInputValues(prev => ({

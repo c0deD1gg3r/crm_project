@@ -12,6 +12,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      // Отправка POST-запроса с данными пользователя
+
       const response = await axios.post('https://localhost:7297/api/TestUser', {
         name: name,
         password: password
@@ -40,7 +42,7 @@ const Login = () => {
               placeholder='Your Name'
               className='inputLogIN'
               value={name}
-              onChange={(e) => setName(e.target.value)} // обновляем состояние
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className='inputContainerLogIN'>
@@ -50,7 +52,7 @@ const Login = () => {
               placeholder='Password'
               className='inputLogIN'
               value={password}
-              onChange={(e) => setPassword(e.target.value)} // обновляем состояние
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button type="submit" className='btn' style={{ width: '100%', height: '50px' }}>Войти</button>
