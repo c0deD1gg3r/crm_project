@@ -23,7 +23,6 @@ const Login = () => {
       console.error('Error logging in:', error);
     }
   };
-
   const goToMain = () => {
     // Возврат на главную страничку
   };
@@ -31,7 +30,7 @@ const Login = () => {
   return (
     <div className='loginMainContentBlock'>
       <div>
-        <h1 style={{ marginTop: '3rem' }}>Войти</h1>
+        <h1 style={{ marginTop: '3rem', color: "#ffffffdf" }}>Войти</h1>
 
         <form onSubmit={handleLogin}>
           <div className='inputContainerLogIN'>
@@ -54,7 +53,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)} // обновляем состояние
             />
           </div>
-          <button type="submit" className='btn'>Войти</button>
+          <button type="submit" className='btn' style={{ width: '100%', height: '50px' }}>Войти</button>
         </form>
       </div>
     </div>
