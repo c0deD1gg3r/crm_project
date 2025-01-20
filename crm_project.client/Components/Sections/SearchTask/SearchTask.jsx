@@ -5,14 +5,18 @@ import { BsFillLightningFill } from "react-icons/bs";
 import './SearchTask.css';
 import { useState, useRef, useEffect } from "react";
 import { inputList, inputList2, inputList3 } from "./inputLists";
+import axios from 'axios';
 
-const SearchTask = () => {
+const SearchTask = ({ addTask, setTasks }) => {
   const [clearInputText, setClearInputText] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [inputValues, setInputValues] = useState({});
+  const [taskTitle, setTaskTitle] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [isCreatingTask, setIsCreatingTask] = useState(false);
 
   const loginAction = (e) => {
     setValidationErrors({});
@@ -101,6 +105,32 @@ const SearchTask = () => {
     });
   };
 
+  // Отправка POST запроса по таскам
+
+  const handleSubmitTask = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('https://localhost:7297/api/Task', { title: taskTitle, description: taskDescription });
+      const newTask = { id: response.data, title: taskTitle, description: taskDescription };
+      setTasks((prevTasks) => [...prevTasks, newTask]);
+      setTaskTitle('');
+      setTaskDescription('');
+      setIsCreatingTask(false);
+      console.log(`Task was created: id: ${response.data}, Title: ${taskTitle}, Description: ${taskDescription}`);
+    } catch (error) {
+      console.error('There was an error creating the task!', error);
+    }
+  };
+
+
+
+  // Открытие формы по созданию тасок
+
+  const handleCreateTaskClick = () => {
+    setIsCreatingTask(!isCreatingTask);
+  };
+
   return (
     <div style={{ marginTop: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -115,8 +145,28 @@ const SearchTask = () => {
 
           <div style={{ display: 'flex', marginLeft: '55px' }}>
             <div>
-              <button style={{ borderRadius: '5px 0 0 5px' }} className='btn'>СОЗДАТЬ </button>
+              <button style={{ borderRadius: '5px 0 0 5px' }} className='btn' onClick={handleCreateTaskClick}>СОЗДАТЬ </button>
             </div>
+
+            {isCreatingTask && (
+              <form onSubmit={handleSubmitTask}>
+                <input
+                  type="text"
+                  placeholder="Название задачи"
+                  value={taskTitle}
+                  onChange={(e) => setTaskTitle(e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Описание задачи"
+                  value={taskDescription}
+                  onChange={(e) => setTaskDescription(e.target.value)}
+                  required
+                />
+                <button type="submit">Отправить</button>
+              </form>
+            )}
 
             <div className='StrelkaVniz'>
               <button style={{ borderRadius: '0 5px 5px 0', backgroundColor: '#4277d3' }} className='btn'>&#9660;</button>

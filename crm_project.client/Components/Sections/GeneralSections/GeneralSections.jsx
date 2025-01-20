@@ -3,13 +3,13 @@ import SearchTask from "../SearchTask/SearchTask";
 import HeadListTask from "../HeadListTask/HeadListTask";
 import TasksSection from "../TasksSection/TasksSection";
 
-const GeneralSections = () => {
+const GeneralSections = ({ addTask, tasks, setTasks }) => {
   return (
     <>
       <Header />
-      <SearchTask />
+      <SearchTask addTask={addTask} setTasks={setTasks} />
       <HeadListTask />
-      <TasksSection />
+      <TasksSection tasks={tasks} />
     </>
   );
 };

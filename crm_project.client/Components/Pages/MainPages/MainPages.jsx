@@ -1,9 +1,9 @@
 import GeneralSections from "../../Sections/GeneralSections/GeneralSections";
 
-const MainPages = () => {
+const MainPages = ({ addTask, tasks, setTasks }) => {
   return (
     <div>
-      <GeneralSections />
+      <GeneralSections addTask={addTask} tasks={tasks} setTasks={setTasks} />
     </div>
   );
 };
