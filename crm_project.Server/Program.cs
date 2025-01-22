@@ -30,17 +30,6 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOrigins",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
-});
-
 builder.Services.AddDbContext<UserContext>(opt =>
     opt.UseInMemoryDatabase("UserLists"));
 
