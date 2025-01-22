@@ -44,11 +44,6 @@ namespace TaskApi.Controller
                 return NotFound();
             }
 
-            if (TaskItem.Id != id)
-            {
-                return BadRequest();
-            }
-
             TaskItem.Title = task.Title;
             TaskItem.Description = task.Description;
 
