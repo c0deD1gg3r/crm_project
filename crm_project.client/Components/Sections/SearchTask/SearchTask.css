@@ -98,6 +98,8 @@
 .mainContentTasks {
   display: flex;
   height: fit-content;
+  position: absolute;
+  z-index: 1;
 }
 
 

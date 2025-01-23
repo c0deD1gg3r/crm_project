@@ -109,15 +109,17 @@ const SearchTask = ({ addTask, setTasks }) => {
 
   const handleSubmitTask = async (e) => {
     e.preventDefault();
+    const currentDate = new Date();
+    const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
 
     try {
-      const response = await axios.post('https://localhost:7297/api/Task', { title: taskTitle, description: taskDescription });
-      const newTask = { id: response.data, title: taskTitle, description: taskDescription };
+      const response = await axios.post('https://localhost:7297/api/Task', { title: taskTitle, description: taskDescription, createdAt: formattedDate });
+      const newTask = { id: response.data, title: taskTitle, description: taskDescription, createdAt: formattedDate };
       setTasks((prevTasks) => [...prevTasks, newTask]);
       setTaskTitle('');
       setTaskDescription('');
       setIsCreatingTask(false);
-      console.log(`Task was created: id: ${response.data}, Title: ${taskTitle}, Description: ${taskDescription}`);
+      console.log(`Task was created: id: ${response.data}, Title: ${taskTitle}, Description: ${taskDescription}, Created At: ${formattedDate}`);
     } catch (error) {
       console.error('There was an error creating the task!', error);
     }
