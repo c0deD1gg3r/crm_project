@@ -1,8 +1,10 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
 import './TasksSection.css';
 import { NavLink } from 'react-router-dom';
 
 const TasksSection = ({ tasks }) => {
+  const leftBlockRef = useRef(null);
+  const rightBlockRef = useRef(null);
 
   const handleScroll = (event) => {
     const { scrollTop } = event.target;
@@ -16,6 +18,7 @@ const TasksSection = ({ tasks }) => {
       <div
         className="leftBlockTasksSection"
         onScroll={handleScroll}
+        ref={leftBlockRef}
       >
         <h1 style={{ color: '#242424', fontSize: '20px' }}>Задачи</h1>
         <ul style={{ padding: '10px 0 10px 10px' }}>
@@ -30,7 +33,7 @@ const TasksSection = ({ tasks }) => {
           </div>
         </ul>
       </div>
-      <div className="rightBlockTasksSection">
+      <div className="rightBlockTasksSection" ref={rightBlockRef}>
         <div>
           <h1>Контент правого блока</h1>
           {/* Дополнительный контент */}

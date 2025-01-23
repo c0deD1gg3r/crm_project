@@ -3,7 +3,7 @@ import './App.css';
 import Login from '../Components/Login/Login';
 import MainPages from '../Components/Pages/MainPages/MainPages';
 import { useState, useEffect } from 'react';
-import TaskDetail from '../Components/Sections/TasksSection/TaskDetail';
+import TaskDetail from '../Components/Sections/TaskDetail/TaskDetail';
 
 const App = () => {
     const [tasks, setTasks] = useState(() => {
