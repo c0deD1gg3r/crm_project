@@ -1,0 +1,284 @@
+
+.iconGear {
+  margin-top: -5px;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid #fff;
+  width: fit-content;
+  height: fit-content;
+  margin-right: 10px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.111);
+  /* 0 - right | 0 - down | 0 -  all | 0 - bold all  */
+  box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.811);
+  color: #fff;
+  cursor: pointer;
+}
+
+.iconLightning {
+  margin-top: -5px;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid #fff;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.111);
+  /* 0 - right | 0 - down | 0 -  all | 0 - bold all  */
+  box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.811);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Мне лень было придумывать что-то */
+.StrelkaVniz {
+  margin-left: -15px;
+}
+
+.rightBlock {
+  display: flex;
+  margin-right: 15px;
+  margin-top: 15px;
+}
+
+.inputContainerTasks {
+  position: relative;
+  margin-top: 5px;
+}
+
+.inputTasks {
+  margin-top: 5px;
+  width: 45vw;
+  height: 47px;
+  border-radius: 5px;
+  padding: 0px 0px 0px 15px;
+  border: none;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.inputTasks::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.inputTasks::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.inputTasks:focus {
+  outline: none;
+}
+
+.iconSeachTasks {
+  position: absolute;
+  right: 10px; 
+  color: rgba(0, 0, 0, 0.3); 
+  font-size: 20px; 
+  margin-top: 18px;
+  margin-right: 25px;
+}
+
+.iconCrossTasks {
+  position: absolute;
+  right: 10px; 
+  color: rgba(0, 0, 0, 0.3); 
+  font-size: 20px; 
+  margin-top: 18px;
+}
+
+.iconCrossTasks1 {
+  display: flex;
+  position: relative;
+  top: 30%;
+}
+
+.iconCrossTasks:hover, .iconSeachTasks:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.mainContentTasks {
+  display: flex;
+  height: fit-content;
+  position: absolute;
+  z-index: 1;
+}
+
+
+.firstContentTasks {
+  background-color: #fff;
+  margin-top: 5px;
+  border-radius: 5px 0px 0px 5px;
+  padding: 5px;
+  width: 15vw;
+  /* box-shadow: 0px 0px 0px 1px rgb(200, 200, 200); */
+  border-right: 1px solid rgba(128, 128, 128, 0.22);
+  z-index: 1000;
+}
+
+.secondContentTasks {
+  background-color: #fff;
+  margin-top: 5px;
+  border-radius: 0 5px 5px 0px;
+  padding: 5px;
+  width: 30vw;
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  position: relative;
+  /* box-shadow: 0px 0px 0px 1px rgb(200, 200, 200) */
+}
+
+.btnAddField {
+  border: none;
+  background-color: transparent;
+  color: rgb(0, 110, 255);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 15px;
+  margin-top: 20px;
+}
+
+.btnAddField:hover {
+  opacity: 0.8;
+  color: rgba(0, 110, 255, 0.948);
+}
+
+.btnAddFieldMainBlock {
+  margin-top: auto; 
+}
+
+.btnSearchClearMainBlock {
+  display: flex; 
+  justify-content: center; 
+  width: 100%; 
+  margin-top: 10px;
+}
+
+.btnSearch {
+  margin: 5px 5px 10px 0;
+	padding: 0 15px;
+	border: none;  
+	border-radius: 4px;
+	height: 5vh;
+	line-height: 36px;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	color: #fff;
+	background-color: #437ee4;
+	cursor: pointer;
+}
+
+.btnClear {
+  margin: 5px 5px 10px 15px;
+	padding: 0 15px;
+	border: 1px solid rgba(0, 0, 0, 0.332);  
+	border-radius: 4px;
+	height: 5vh;
+	line-height: 36px;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	color: #2f2f2f;
+	background-color: transparent;
+  box-shadow: 0px 0px 1px 0.5px;
+	cursor: pointer;
+}
+
+.ioSearchBtn {
+  position: relative;
+  top: 10%;
+}
+
+.listsField {
+  display: none;
+}
+
+.listsField.open {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 40vw; 
+  gap: 15px; 
+  position: absolute;
+  background-color: #fff;
+  z-index: 10000000;
+  text-align: left;
+  border-radius: 5px;
+}
+
+.listFieldMap1 {
+  display: flex;
+  justify-content: flex-start; 
+  padding: 5px 15px; 
+}
+
+.listFieldMap1 li {
+  font-size: 12px;
+}
+
+.listsFieldDirections1 {
+  display: grid;
+  flex-wrap: wrap;
+  flex: 1 1 0;
+}
+
+.inputILists3 {
+  position: relative;
+  top: -10%;
+  right: 3%;
+}
+
+.inputILists2 {
+  position: relative;
+  top: -10%;
+  right: 3%;
+}
+
+.inputILists1{
+  position: relative;
+  right: 3%;
+}
+
+.titleCheckboxBlock {
+  padding: 10px;
+}
+
+.titleCheckboxBlock h4 {
+  opacity: 0.4;
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.mainInput {
+  width: 27vw;
+  height: 3.5vh;
+  border-radius: 5px;
+  border: 1px solid rgba(128, 128, 128, 0.601);
+  padding: 10px;
+}
+
+.mainInput:focus{
+  outline: none;
+  border: 1px solid #5b8ee5;
+}
+
+.mainInput:hover{
+  border: 1px solid #5b8ee5;
+}
+
+.btnTitleCheckboxBlock {
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px; 
+  opacity: 0; 
+  transition: opacity 0.5s ease; 
+  font-size: 16px;
+  background-color: #fff;
+}
+
+.titleCheckboxBlock:hover .btnTitleCheckboxBlock {
+  opacity: 0.8; 
+}

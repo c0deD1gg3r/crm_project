@@ -12,8 +12,9 @@
 
 body {
     min-height: 100vh;
-    background: url('../Img/image.png');
+    /* background: url('../Img/image.png');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    background-color: #242424;
 }

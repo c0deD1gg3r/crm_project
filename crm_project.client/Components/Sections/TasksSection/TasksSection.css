@@ -1,0 +1,24 @@
+body {
+  min-height: 100vh; 
+  margin: 0; 
+}
+
+.mainBlockContentTasksSection {
+  margin-top: 20px;
+  display: flex; 
+}
+
+.leftBlockTasksSection {
+  position: relative; 
+  padding: 50px 0 0 30px;
+  background-color: #fff;
+  min-height: auto;
+  max-height: 68vh; 
+  overflow-y: auto; 
+  resize: horizontal; 
+  border-radius: 15px;
+}
+
+.rightBlockTasksSection {
+  
+}
