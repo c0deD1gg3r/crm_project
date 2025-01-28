@@ -12,10 +12,22 @@ const App = () => {
         return savedTasks ? JSON.parse(savedTasks) : [];
     });
 
+    // Добавление задачи
     const addTask = (task) => {
         setTasks(prevTasks => {
             const updatedTasks = [...prevTasks, task];
-            localStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Сохранение в localStorage
+            localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+            return updatedTasks;
+        });
+    };
+
+    // Обновление существующей задачи
+    const updateTask = (updatedTask) => {
+        setTasks(prevTasks => {
+            const updatedTasks = prevTasks.map(task =>
+                task.id === updatedTask.id ? updatedTask : task
+            );
+            localStorage.setItem('tasks', JSON.stringify(updatedTasks));
             return updatedTasks;
         });
     };
@@ -30,7 +42,7 @@ const App = () => {
             <Routes>
                 <Route path='/' element={<MainPages addTask={addTask} tasks={tasks} setTasks={setTasks} />} />
                 <Route path='/Login' element={<Login />} />
-                <Route path="/task/:id" element={<TaskDetail tasks={tasks} />} />
+                <Route path="/task/:id" element={<TaskDetail tasks={tasks} updateTask={updateTask} />} />
             </Routes>
         </BrowserRouter>
     );

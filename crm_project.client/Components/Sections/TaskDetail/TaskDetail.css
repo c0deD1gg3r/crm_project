@@ -1,4 +1,172 @@
 .mainBlockTaskDetail {
   display: flex;
   justify-content: space-between;
+  margin: 10px;
+  color: #fff;
 }
+
+.descriptionBlock {
+  margin-top: 15px;
+  width: fit-content;
+}
+
+.rightBlockTaskDetail {
+font-size: 0.9rem
+}
+
+.headRightBlockTaskDetail {
+  background-color: rgb(0, 171, 171);
+  padding: 15px;
+  border-radius: 15px 15px 0 0;
+  width: 17vw;
+}
+
+.contentRightBlockTasDetail {
+  width: 17vw;
+  padding: 15px;
+  color: #242424;
+  background-color: white;
+  border-radius: 0 0 10px 10px;
+}
+
+.contentRightBlockTasDetail ul li {
+  list-style-type: none;
+  margin-bottom: 30px;
+  border-bottom: 1px solid;
+  border-color: #24242443;
+  line-height: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnAddListRightTaskDetail {
+  border: none;
+  background-color: transparent;
+  color: rgb(0, 110, 255);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 15px;
+}
+
+.contentRightBlockTasDetail p {
+  text-align: center;
+  background-color: rgb(255, 91, 85);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.progressContainer {
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  height: 15px;
+  width: 10vw;
+  margin-left: 30px;
+}
+
+.progress {
+  background-color: #76c7c0;
+  height: 100%;
+  border-radius: 15px;
+}
+
+.isDoneTaskDetail {
+  margin-left: 20px;
+  opacity: 0.8;
+  font-weight: 200;
+  font-size: 12px;
+}
+
+.btnAddListTaskDetail {
+  border: none;
+  background-color: transparent;
+  color: rgb(0, 110, 255);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 15px;
+  margin-top: 30px;
+  line-height: 16px;
+  border-bottom: 2px dotted rgb(0, 110, 255);;
+}
+
+.btnAddListTaskDetail:hover {
+  opacity: 0.8;
+  color: rgba(0, 110, 255, 0.948);
+  border-bottom: 2px dotted rgba(0, 110, 255, 0.948);
+}
+
+.mainListTaskDetail {
+  margin: 20px;
+  background-color: #fff;
+  width: 30vw;
+  color: black; 
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.checkListItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  word-break: break-word;
+  width: 100%;
+  border-bottom: 1px solid #24242453;
+}
+
+.checkListItem div {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.checkListItem span {
+  flex: 1; 
+  margin-left: 10px;
+}
+
+.endButton {
+  margin-left: auto;
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px; 
+  opacity: 0; 
+  transition: opacity 0.5s ease; 
+  font-size: 16px;
+  background-color: #fff;
+}
+
+.checkListItem:hover .endButton{
+  opacity: 0.8;
+}
+
+.btnDeleteListTaskDetail {
+  border: none;
+  background-color: transparent;
+  color: rgb(255, 0, 21);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 15px;
+  margin-top: 30px;
+}
+
+.btnEDDTaskDetail {
+  margin-top: 10px;
+}
+
+.btnEDD {
+	padding: 0 15px;
+	margin: 20px 5px 0 0;
+	outline: none;
+	border: none;  
+	border-radius: 4px;
+	height: 40px;
+	font-size: 14px;
+	color: #fff;
+	background-color: #437ee4;
+	vertical-align: top;
+	cursor: pointer;
+}
+

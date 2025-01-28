@@ -44,13 +44,10 @@ namespace TaskApi.Controller
                 return NotFound();
             }
 
-            if (TaskItem.Id != id)
-            {
-                return BadRequest();
-            }
-
             TaskItem.Title = task.Title;
             TaskItem.Description = task.Description;
+            TaskItem.StartTime = task.StartTime;
+            TaskItem.EndTime = task.EndTime;
 
             try
             {
@@ -72,6 +69,8 @@ namespace TaskApi.Controller
                 Id = Random.Shared.Next(),
                 Title = task.Title,
                 Description = task.Description,
+                StartTime = task.StartTime,
+                EndTime = task.EndTime
             };
 
             _taskContext.Tasks.Add(newTask);
