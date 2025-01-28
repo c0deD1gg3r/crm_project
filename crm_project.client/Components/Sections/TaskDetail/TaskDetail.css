@@ -5,13 +5,33 @@
   color: #fff;
 }
 
+.leftBlockTaskDetail {
+  background-color: #fff;
+  color: #242424;
+  border-radius: 15px;
+  padding: 15px;
+  width: 77vw;
+}
+
+.leftBlockTaskDetail h2 {
+  font-size: 16px;
+  border-bottom: 1px solid #24242453;
+  line-height: 30px;
+}
+
+
+.checkListTaskDetail {
+ 
+}
+
 .descriptionBlock {
   margin-top: 15px;
-  width: fit-content;
+  border-bottom: 1px solid #24242453;
 }
 
 .rightBlockTaskDetail {
-font-size: 0.9rem
+  font-size: 0.9rem;
+  margin-top: 57px;
 }
 
 .headRightBlockTaskDetail {
@@ -26,7 +46,7 @@ font-size: 0.9rem
   padding: 15px;
   color: #242424;
   background-color: white;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px
 }
 
 .contentRightBlockTasDetail ul li {
@@ -51,7 +71,7 @@ font-size: 0.9rem
 
 .contentRightBlockTasDetail p {
   text-align: center;
-  background-color: rgb(255, 91, 85);
+  background-color: rgb(224, 136, 133);
   padding: 5px;
   border-radius: 5px;
 }
@@ -98,9 +118,9 @@ font-size: 0.9rem
 
 .mainListTaskDetail {
   margin: 20px;
-  background-color: #fff;
+  background-color: #363636;
   width: 30vw;
-  color: black; 
+  color: #fff; 
   padding: 10px;
   border-radius: 10px;
 }
@@ -111,7 +131,7 @@ font-size: 0.9rem
   margin-bottom: 10px;
   word-break: break-word;
   width: 100%;
-  border-bottom: 1px solid #24242453;
+  border-bottom: 1px solid #ffffff4a;
 }
 
 .checkListItem div {
@@ -134,7 +154,8 @@ font-size: 0.9rem
   opacity: 0; 
   transition: opacity 0.5s ease; 
   font-size: 16px;
-  background-color: #fff;
+  background-color: transparent;
+  color: #fff;
 }
 
 .checkListItem:hover .endButton{
@@ -144,7 +165,7 @@ font-size: 0.9rem
 .btnDeleteListTaskDetail {
   border: none;
   background-color: transparent;
-  color: rgb(255, 0, 21);
+  color: rgb(245, 85, 98);
   font-weight: bold;
   cursor: pointer;
   font-size: 12px;
