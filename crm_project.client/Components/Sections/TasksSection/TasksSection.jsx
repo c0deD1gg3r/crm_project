@@ -13,6 +13,18 @@ const TasksSection = ({ tasks }) => {
     }
   };
 
+  const calculateProgress = (task) => {
+    const currentDate = new Date();
+    const deadlineDate = new Date(task.endTime);
+    const startDate = new Date(task.createdAt);
+
+    const totalDuration = deadlineDate - startDate;
+    const elapsedDuration = currentDate - startDate;
+    const progress = (elapsedDuration / totalDuration) * 100;
+
+    return Math.min(Math.max(progress, 0), 100);
+  };
+
   return (
     <div className="mainBlockContentTasksSection">
       <div
@@ -33,12 +45,34 @@ const TasksSection = ({ tasks }) => {
           </div>
         </ul>
       </div>
-      <div className="rightBlockTasksSection" ref={rightBlockRef}>
-        <div>
-          <h1>Контент правого блока</h1>
-          {/* Дополнительный контент */}
-        </div>
-      </div>
+      {/* <div className="rightBlockTasksSection" ref={rightBlockRef}>
+        <h1>Контент правого блока</h1>
+        <ul style={{ padding: '0' }}>
+          {tasks.map((task) => (
+            <li key={task.id} style={{ listStyleType: 'none', position: 'relative' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <NavLink to={`/task/${task.id}`} style={{ flex: 1 }}>
+                  #{task.id} {task.title}
+                </NavLink>
+              </div>
+              <div style={{ backgroundColor: '#e0e0e0', height: '5px', borderRadius: '5px', marginTop: '5px' }}>
+                <div
+                  style={{
+                    width: `${calculateProgress(task)}%`,
+                    height: '100%',
+                    backgroundColor: '#4285f4',
+                    borderRadius: '5px',
+                  }}
+                />
+              </div>
+              <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ height: '5px', width: '2px', backgroundColor: 'red', position: 'absolute', left: 0 }} />
+                <div style={{ height: '5px', width: '2px', backgroundColor: 'red', position: 'absolute', right: 0 }} />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div> */}
     </div>
   );
 };
