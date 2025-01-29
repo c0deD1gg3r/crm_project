@@ -12,17 +12,17 @@ body {
   position: relative; 
   padding: 50px 0 0 30px;
   background-color: #fff;
-  min-height: auto;
+  min-height: 68vh;
   max-height: 68vh; 
   overflow-y: auto; 
   resize: horizontal; 
   border-radius: 15px;
-  z-index: 1;
   max-width: 98vw;
+  min-width: 40vw;
 }
 
 .rightBlockTasksSection {
-  position: relative; 
+  /* position: relative; 
   padding: 50px 0 0 30px;
   background-color: #fff;
   min-height: auto;
@@ -30,5 +30,43 @@ body {
   overflow-y: auto; 
   resize: horizontal;
   position: absolute;
-  max-width: 96.6vw;
+  max-width: 96.6vw; */
+}
+
+.iconLoading {
+  color: orange;
+}
+
+.iconDone {
+  color: green;
+}
+
+.iconOverdue {
+  color: red;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-container .tooltip {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }

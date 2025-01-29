@@ -38,13 +38,11 @@ const SearchTask = ({ addTask, setTasks }) => {
   };
 
   // Открытие инпута для добавление полей
-
   const Open = () => {
     setIsOpen(!isOpen);
   };
 
   // Что-то вроде открытие инпута или удержание инпута
-
   const Active = () => {
     setIsActive(true);
   };
@@ -56,7 +54,6 @@ const SearchTask = ({ addTask, setTasks }) => {
   };
 
   // Закрывает инпут вне контекста, а иначе не пашит
-
   const handleClickOutside = (event) => {
     if (containerRef.current && !containerRef.current.contains(event.target)) {
       setIsActive(false);
@@ -64,7 +61,6 @@ const SearchTask = ({ addTask, setTasks }) => {
   };
 
   // Закрывает инпут вне контекста, а иначе не пашит
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -73,7 +69,6 @@ const SearchTask = ({ addTask, setTasks }) => {
   }, []);
 
   // Проверка чекбокса есть/нет, если то при нажатие отрисует инпут
-
   const handleCheckboxChange = (title) => {
     setSelectedCheckboxes(prev => {
       if (prev.includes(title)) {
@@ -85,7 +80,6 @@ const SearchTask = ({ addTask, setTasks }) => {
   };
 
   // Отрисовка названия выбранного чекбокса с инпутом(Аналог handleCheckboxChange)
-
   const handleInputChange = (title, value) => {
     setInputValues(prev => ({
       ...prev,
@@ -95,7 +89,6 @@ const SearchTask = ({ addTask, setTasks }) => {
 
 
   // Удаление чекбокса
-
   const removeCheckbox = (title) => {
     setSelectedCheckboxes(prev => prev.filter(item => item !== title));
     setInputValues(prev => {
@@ -106,7 +99,6 @@ const SearchTask = ({ addTask, setTasks }) => {
   };
 
   // Отправка POST запроса по таскам
-
   const handleSubmitTask = async (e) => {
     e.preventDefault();
     const currentDate = new Date();
@@ -136,16 +128,12 @@ const SearchTask = ({ addTask, setTasks }) => {
       setTaskTitle('');
       setTaskDescription('');
       setIsCreatingTask(false);
-      console.log('Task created:', newTask);
     } catch (error) {
-      console.error('Error creating the task:', error);
+      console.error('Error creating the task');
     }
   };
 
-
-
   // Открытие формы по созданию тасок
-
   const handleCreateTaskClick = () => {
     setIsCreatingTask(!isCreatingTask);
   };
@@ -157,16 +145,13 @@ const SearchTask = ({ addTask, setTasks }) => {
           <div>
             <h1 style={{ color: '#fff', fontWeight: '250' }}>Мои задачи</h1>
           </div>
-
           <div style={{ color: '#fff', fontSize: '33px', fontWeight: '100', marginLeft: '30px' }}>
             &#9734;
           </div>
-
           <div style={{ display: 'flex', marginLeft: '55px' }}>
             <div>
               <button style={{ borderRadius: '5px 0 0 5px' }} className='btn' onClick={handleCreateTaskClick}>СОЗДАТЬ </button>
             </div>
-
             {isCreatingTask && (
               <form onSubmit={handleSubmitTask}>
                 <input
