@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import './TasksSection.css';
 import { NavLink } from 'react-router-dom';
+import { FaCheckCircle, FaExclamationTriangle, FaClock } from 'react-icons/fa';
 
 const TasksSection = ({ tasks }) => {
   const leftBlockRef = useRef(null);
@@ -13,16 +14,28 @@ const TasksSection = ({ tasks }) => {
     }
   };
 
-  const calculateProgress = (task) => {
+  const getTaskIcon = (task) => {
     const currentDate = new Date();
-    const deadlineDate = new Date(task.endTime);
-    const startDate = new Date(task.createdAt);
+    const deadline = new Date(task.endTime);
+    let icon, tooltipText;
 
-    const totalDuration = deadlineDate - startDate;
-    const elapsedDuration = currentDate - startDate;
-    const progress = (elapsedDuration / totalDuration) * 100;
+    if (task.isCompleted) {
+      icon = <FaCheckCircle className="iconDone" />;
+      tooltipText = "Задача выполнена";
+    } else if (currentDate > deadline) {
+      icon = <FaExclamationTriangle className="iconOverdue" />;
+      tooltipText = "Задача просрочена";
+    } else {
+      icon = <FaClock className="iconLoading" />;
+      tooltipText = "Задача в процессе";
+    }
 
-    return Math.min(Math.max(progress, 0), 100);
+    return (
+      <div className="tooltip-container">
+        {icon}
+        <span className="tooltip">{tooltipText}</span>
+      </div>
+    );
   };
 
   return (
@@ -38,41 +51,21 @@ const TasksSection = ({ tasks }) => {
             {!!tasks.length && tasks.map((task) => (
               <div key={task.id}>
                 <NavLink to={`/task/${task.id}`}>
-                  <li style={{ listStyleType: 'none' }}>#{task.id} {task.title}</li>
+                  <li style={{ listStyleType: 'none' }}>
+                    #{task.id} {task.title} {getTaskIcon(task)}
+                  </li>
                 </NavLink>
               </div>
             ))}
           </div>
         </ul>
       </div>
-      {/* <div className="rightBlockTasksSection" ref={rightBlockRef}>
-        <h1>Контент правого блока</h1>
-        <ul style={{ padding: '0' }}>
-          {tasks.map((task) => (
-            <li key={task.id} style={{ listStyleType: 'none', position: 'relative' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <NavLink to={`/task/${task.id}`} style={{ flex: 1 }}>
-                  #{task.id} {task.title}
-                </NavLink>
-              </div>
-              <div style={{ backgroundColor: '#e0e0e0', height: '5px', borderRadius: '5px', marginTop: '5px' }}>
-                <div
-                  style={{
-                    width: `${calculateProgress(task)}%`,
-                    height: '100%',
-                    backgroundColor: '#4285f4',
-                    borderRadius: '5px',
-                  }}
-                />
-              </div>
-              <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ height: '5px', width: '2px', backgroundColor: 'red', position: 'absolute', left: 0 }} />
-                <div style={{ height: '5px', width: '2px', backgroundColor: 'red', position: 'absolute', right: 0 }} />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div> */}
+      <div className="rightBlockTasksSection" ref={rightBlockRef}>
+        <div>
+          <h1>Контент правого блока</h1>
+          {/* Дополнительный контент */}
+        </div>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import './TaskDetail.css';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { FaCheckCircle, FaExclamationTriangle, FaClock } from 'react-icons/fa';
 
 const TaskDetail = ({ tasks, updateTask }) => {
   const { id } = useParams();
@@ -11,7 +12,8 @@ const TaskDetail = ({ tasks, updateTask }) => {
   const [newListName, setNewListName] = useState('');
   const [newItems, setNewItems] = useState([]);
   const [currentListIndex, setCurrentListIndex] = useState(null);
-  const [deadline, setDeadline] = useState('');
+  const [deadline, setDeadline] = useState(task?.endTime || '');
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -27,9 +29,14 @@ const TaskDetail = ({ tasks, updateTask }) => {
     return <div>Задача не найдена</div>;
   }
 
+  const handleCompleteTask = () => {
+    setIsCompleted(true);
+    updateTask({ ...task, isCompleted: true });
+  };
+
   // Сохранение изменений в задаче
   const saveCheckLists = (updatedLists) => {
-    const updatedTask = { ...task, checkLists: updatedLists };
+    const updatedTask = { ...task, checkLists: updatedLists, endTime: deadline };
     updateTask(updatedTask);
   };
 
@@ -109,11 +116,10 @@ const TaskDetail = ({ tasks, updateTask }) => {
   const handleDeleteCheckList = (listIndex) => {
     const updatedLists = checkLists.filter((_, idx) => idx !== listIndex);
     setCheckLists(updatedLists);
-    saveCheckLists(updatedLists); // Сохраняем обновленные чек-листы
+    saveCheckLists(updatedLists);
   };
 
   // Обновление изменений после перемещения
-
   const handleDragEnd = (result, listIndex) => {
     if (!result.destination) return;
 
@@ -133,13 +139,33 @@ const TaskDetail = ({ tasks, updateTask }) => {
     const currentDate = new Date();
     const deadlineDate = new Date(deadline);
 
-    if (task.isCompleted) {
-      return "Задача выполнена";
-    } else if (currentDate > deadlineDate) {
-      return "Задача просрочена";
+    if (isCompleted) return <span style={{ color: 'green' }}> задача выполнена</span>;
+    if (currentDate > deadlineDate) return <span style={{ color: 'red' }}> задача просрочена</span>;
+    return <span style={{ color: 'orange' }}> задача в процессе</span>;
+  };
+
+  const getTaskIcon = (task) => {
+    const currentDate = new Date();
+    const deadline = new Date(task.endTime);
+    let icon, tooltipText;
+
+    if (task.isCompletedTaskDetail) {
+      icon = <FaCheckCircle className="iconDone" />;
+      tooltipText = "Задача выполнена";
+    } else if (currentDate > deadline) {
+      icon = <FaExclamationTriangle className="iconOverdue" />;
+      tooltipText = "Задача просрочена";
     } else {
-      return "Задача в процессе";
+      icon = <FaClock className="iconLoading" />;
+      tooltipText = "Задача в процессе";
     }
+
+    return (
+      <div className="tooltip-container">
+        {icon}
+        <span className="tooltip">{tooltipText}</span>
+      </div>
+    );
   };
 
   return (
@@ -154,7 +180,7 @@ const TaskDetail = ({ tasks, updateTask }) => {
           {/* Чек-листы */}
           <div className='checkListTaskDetail'>
             <div>
-              <h2>Задача №{task.id} - ждёт выполнения, </h2>
+              <h2>Задача №{task.id} - {getTaskStatus()} {getTaskIcon(task)}</h2>
             </div>
             <div className='descriptionBlock'>
               <p>{task.description}</p>
@@ -271,14 +297,14 @@ const TaskDetail = ({ tasks, updateTask }) => {
 
           <div className='btnEDDTaskDetail'>
             <button className='btnEDD'>Редактировать</button>
-            <button className='btnEDD' style={{ marginLeft: '20px' }}>Завершить</button>
+            <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleCompleteTask}>Завершить</button>
             <button className='btnEDD' style={{ marginLeft: '20px' }}>Удалить</button>
           </div>
         </div>
       </div>
       <div className='rightBlockTaskDetail'>
         <div className='headRightBlockTaskDetail'>
-          <span style={{ fontSize: '13px' }}>Ждёт выполнения с</span>
+          <span style={{ fontSize: '13px' }}>Ждёт выполнения до {deadline}</span>
         </div>
         <div className='contentRightBlockTasDetail'>
           <p>{getTaskStatus()}</p>
