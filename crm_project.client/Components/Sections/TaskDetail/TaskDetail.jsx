@@ -11,6 +11,7 @@ const TaskDetail = ({ tasks, updateTask }) => {
   const [newListName, setNewListName] = useState('');
   const [newItems, setNewItems] = useState([]);
   const [currentListIndex, setCurrentListIndex] = useState(null);
+  const [deadline, setDeadline] = useState('');
 
   const inputRef = useRef(null);
 
@@ -18,6 +19,7 @@ const TaskDetail = ({ tasks, updateTask }) => {
     if (task && task.checkLists) {
       setCheckLists(task.checkLists);
       setNewItems(new Array(task.checkLists.length).fill(''));
+      setDeadline(task.endTime);
     }
   }, [task]);
 
@@ -127,6 +129,19 @@ const TaskDetail = ({ tasks, updateTask }) => {
     saveCheckLists(updatedLists);
   };
 
+  const getTaskStatus = () => {
+    const currentDate = new Date();
+    const deadlineDate = new Date(deadline);
+
+    if (task.isCompleted) {
+      return "Задача выполнена";
+    } else if (currentDate > deadlineDate) {
+      return "Задача просрочена";
+    } else {
+      return "Задача в процессе";
+    }
+  };
+
   return (
     <div className='mainBlockTaskDetail'>
       <div>
@@ -216,7 +231,7 @@ const TaskDetail = ({ tasks, updateTask }) => {
                       className='btnAddListTaskDetail'
                       onClick={() => setCurrentListIndex(listIndex)}
                     >
-                      Добавить пункт
+                      + <span>Добавить пункт</span>
                     </button>
                     <button
                       className='btnDeleteListTaskDetail'
@@ -266,13 +281,27 @@ const TaskDetail = ({ tasks, updateTask }) => {
           <span style={{ fontSize: '13px' }}>Ждёт выполнения с</span>
         </div>
         <div className='contentRightBlockTasDetail'>
-          <p>Здесь будет срок задачи</p>
+          <p>{getTaskStatus()}</p>
           <ul style={{ marginTop: '20px' }}>
-            <li>Крайний срок: </li>
+            <li>
+              <label>Крайний срок:</label>
+              <input
+                type="date"
+                value={deadline.split('T')[0]}
+                onChange={(e) => {
+                  setDeadline(e.target.value);
+                  const updatedTask = { ...task, endTime: e.target.value };
+                  updateTask(updatedTask);
+                }}
+              />
+            </li>
             <li>Поставлена: {task.createdAt} {new Date(task.startTime).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</li>
             <li style={{ display: 'flex' }}>
               Стадия:{' '}
-              {checkLists.map((list, listIndex) => {
+
+              {/* После добавления нового чек-листа добавляется ещё один прогресс бар к уже существующему */}
+
+              {/* {checkLists.map((list, listIndex) => {
                 const totalItems = list.items.length;
                 const completedItems = list.items.filter(item => item.isChecked).length;
                 const progressPercentage = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
@@ -283,16 +312,15 @@ const TaskDetail = ({ tasks, updateTask }) => {
                     </div>
                   </div>
                 );
-              })}
+              })} */}
 
 
-
-              {/* {checkLists.reduce((acc, list) => acc + list.items.length, 0) > 0
+              {checkLists.reduce((acc, list) => acc + list.items.length, 0) > 0
                 ? `${checkLists.reduce(
                   (acc, list) => acc + list.items.filter(item => item.isChecked).length,
                   0
                 )} из ${checkLists.reduce((acc, list) => acc + list.items.length, 0)}`
-                : 'Нет пунктов'} */}
+                : 'Нет пунктов'}
             </li>
           </ul>
           <ul style={{ marginTop: '70px' }}>

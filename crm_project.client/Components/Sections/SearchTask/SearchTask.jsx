@@ -37,13 +37,13 @@ const SearchTask = ({ addTask, setTasks }) => {
       });
   };
 
-  // Не помню для чего, но без этого код не работает(вроде, проверять не стану)
+  // Открытие инпута для добавление полей
 
   const Open = () => {
     setIsOpen(!isOpen);
   };
 
-  // Не помню для чего, но без этого код не работает(вроде, проверять не стану)
+  // Что-то вроде открытие инпута или удержание инпута
 
   const Active = () => {
     setIsActive(true);
@@ -99,7 +99,7 @@ const SearchTask = ({ addTask, setTasks }) => {
   const removeCheckbox = (title) => {
     setSelectedCheckboxes(prev => prev.filter(item => item !== title));
     setInputValues(prev => {
-      const newInputValues = { ...prev };
+      const newInputValues = { ...prev }; S;
       delete newInputValues[title];
       return newInputValues;
     });

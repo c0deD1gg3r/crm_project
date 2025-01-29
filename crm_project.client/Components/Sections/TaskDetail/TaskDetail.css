@@ -6,11 +6,15 @@
 }
 
 .leftBlockTaskDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
   background-color: #fff;
   color: #242424;
   border-radius: 15px;
   padding: 15px;
-  width: 77vw;
+  width: 76vw;
+  min-height: 90vh; 
 }
 
 .leftBlockTaskDetail h2 {
@@ -27,6 +31,10 @@
 .descriptionBlock {
   margin-top: 15px;
   border-bottom: 1px solid #24242453;
+}
+
+.descriptionBlock p {
+  margin-bottom: 50px;
 }
 
 .rightBlockTaskDetail {
@@ -100,26 +108,32 @@
 .btnAddListTaskDetail {
   border: none;
   background-color: transparent;
-  color: rgb(0, 110, 255);
+  color: rgb(93, 155, 255);
   font-weight: bold;
   cursor: pointer;
   font-size: 12px;
   margin-left: 15px;
   margin-top: 30px;
   line-height: 16px;
-  border-bottom: 2px dotted rgb(0, 110, 255);;
+}
+
+.btnAddListTaskDetail span {
+  border-bottom: 2px dotted rgb(93, 155, 255);
+}
+
+.btnAddListTaskDetail span:hover {
+  border-bottom: 2px dotted rgba(0, 110, 255, 0.948);
 }
 
 .btnAddListTaskDetail:hover {
   opacity: 0.8;
   color: rgba(0, 110, 255, 0.948);
-  border-bottom: 2px dotted rgba(0, 110, 255, 0.948);
 }
 
 .mainListTaskDetail {
-  margin: 20px;
+  margin: 10px;
   background-color: #363636;
-  width: 30vw;
+  width: 73vw;
   color: #fff; 
   padding: 10px;
   border-radius: 10px;
@@ -171,10 +185,19 @@
   font-size: 12px;
   margin-left: 15px;
   margin-top: 30px;
+  border-bottom: 2px dotted rgb(245, 85, 98);
+}
+
+.btnDeleteListTaskDetail:hover {
+  color: red;
+  border-bottom: 2px dotted red;
 }
 
 .btnEDDTaskDetail {
-  margin-top: 10px;
+  margin-top: auto;
+  display: flex; 
+  justify-content: flex-start; 
+  padding-top: 10px;
 }
 
 .btnEDD {
