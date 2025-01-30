@@ -176,6 +176,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     );
   };
 
+  // Обновление статуса задачи но в другом месте =)
   const getTaskStatus2 = () => {
     const currentDate = new Date();
     const deadlineDate = new Date(deadline);
