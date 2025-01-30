@@ -23,6 +23,13 @@ const TaskDetail = ({ tasks, updateTask }) => {
       setNewItems(new Array(task.checkLists.length).fill(''));
       setDeadline(task.endTime);
     }
+
+    const savedStatus = localStorage.getItem(task.id);
+    if (savedStatus !== null) {
+      setIsCompleted(savedStatus === 'true');
+    } else {
+      setIsCompleted(task.isCompleted || false);
+    }
   }, [task]);
 
   if (!task) {
@@ -31,7 +38,9 @@ const TaskDetail = ({ tasks, updateTask }) => {
 
   const handleCompleteTask = () => {
     setIsCompleted(true);
-    updateTask({ ...task, isCompleted: true });
+    const updatedTask = { ...task, isCompleted: true };
+    updateTask(updatedTask);
+    localStorage.setItem(task.id, 'true');
   };
 
   // Сохранение изменений в задаче
@@ -135,24 +144,55 @@ const TaskDetail = ({ tasks, updateTask }) => {
     saveCheckLists(updatedLists);
   };
 
+
+  // Обновление статуса задачи
   const getTaskStatus = () => {
     const currentDate = new Date();
     const deadlineDate = new Date(deadline);
+    let statusText = '';
+    let bgColor = '';
+    let color = '';
 
-    if (isCompleted) return <span style={{ color: 'green' }}> задача выполнена</span>;
-    if (currentDate > deadlineDate) return <span style={{ color: 'red' }}> задача просрочена</span>;
-    return <span style={{ color: 'orange' }}> задача в процессе</span>;
+    if (isCompleted) {
+      statusText = 'Задача выполнена';
+      bgColor = 'rgba(0, 254, 0, 0.96)';
+      color = 'rgb(0, 120, 30)';
+    } else if (currentDate > deadlineDate) {
+      statusText = 'Задача просрочена!';
+      bgColor = 'rgba(245, 73, 73, 0.7)';
+      color = 'red';
+    } else {
+      statusText = 'Задача в процессе';
+      bgColor = 'orange';
+      color = 'rgb(255, 242, 0)';
+    }
+
+    return (
+      <p style={{ backgroundColor: bgColor, padding: '10px', borderRadius: '5px' }}>
+        <span style={{ color: color, fontWeight: '500' }}>{statusText}</span>
+      </p>
+    );
   };
 
-  const getTaskIcon = (task) => {
+  const getTaskStatus2 = () => {
     const currentDate = new Date();
-    const deadline = new Date(task.endTime);
+    const deadlineDate = new Date(deadline);
+
+    if (isCompleted) return <span style={{ color: 'green', fontWeight: 'bold' }}>Задача выполнена</span>;
+    if (currentDate > deadlineDate) return <span style={{ color: 'red', fontWeight: 'bold' }}>Задача просрочена</span>;
+    return <span style={{ color: 'orange', fontWeight: 'bold' }}>Задача в процессе</span>;
+  };
+
+  // Обновление иконки по статусу задачи
+  const getTaskIcon = () => {
+    const currentDate = new Date();
+    const deadlineDate = new Date(task.endTime);
     let icon, tooltipText;
 
-    if (task.isCompletedTaskDetail) {
+    if (isCompleted) {
       icon = <FaCheckCircle className="iconDone" />;
       tooltipText = "Задача выполнена";
-    } else if (currentDate > deadline) {
+    } else if (currentDate > deadlineDate) {
       icon = <FaExclamationTriangle className="iconOverdue" />;
       tooltipText = "Задача просрочена";
     } else {
@@ -177,10 +217,9 @@ const TaskDetail = ({ tasks, updateTask }) => {
           </h1>
         </div>
         <div className='leftBlockTaskDetail'>
-          {/* Чек-листы */}
           <div className='checkListTaskDetail'>
             <div>
-              <h2>Задача №{task.id} - {getTaskStatus()} {getTaskIcon(task)}</h2>
+              <h2>Задача №{task.id} - {getTaskStatus2()} {getTaskIcon(task)}</h2>
             </div>
             <div className='descriptionBlock'>
               <p>{task.description}</p>
