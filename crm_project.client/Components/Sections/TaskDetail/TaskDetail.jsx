@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { FaCheckCircle, FaExclamationTriangle, FaClock } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
-const TaskDetail = ({ tasks, updateTask }) => {
+const TaskDetail = ({ tasks, updateTask, setTasks }) => {
   const { id } = useParams();
   const task = tasks.find(task => task.id.toString() === id);
+  const navigate = useNavigate();
 
   const [checkLists, setCheckLists] = useState([]);
   const [newListName, setNewListName] = useState('');
@@ -14,8 +16,8 @@ const TaskDetail = ({ tasks, updateTask }) => {
   const [currentListIndex, setCurrentListIndex] = useState(null);
   const [deadline, setDeadline] = useState(task?.endTime || '');
   const [isCompleted, setIsCompleted] = useState(false);
-
   const inputRef = useRef(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     if (task && task.checkLists) {
@@ -174,6 +176,7 @@ const TaskDetail = ({ tasks, updateTask }) => {
     );
   };
 
+  // Обновление статуса задачи но в другом месте =)
   const getTaskStatus2 = () => {
     const currentDate = new Date();
     const deadlineDate = new Date(deadline);
@@ -206,6 +209,26 @@ const TaskDetail = ({ tasks, updateTask }) => {
         <span className="tooltip">{tooltipText}</span>
       </div>
     );
+  };
+
+  // Удаление задачи
+  const handleDeleteTask = () => {
+    setShowDeleteConfirmation(true);
+  };
+
+  // Если нет, то скрываем окно
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
+  };
+
+  // Удаление задачи с переходом на главную
+  const handleConfirmDelete = () => {
+    const updatedTasks = tasks.map((t) =>
+      t.id === task.id ? { ...t, isDeleted: true } : t
+    );
+    setTasks(updatedTasks);
+    setShowDeleteConfirmation(false);
+    navigate('/');
   };
 
   return (
@@ -337,8 +360,19 @@ const TaskDetail = ({ tasks, updateTask }) => {
           <div className='btnEDDTaskDetail'>
             <button className='btnEDD'>Редактировать</button>
             <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleCompleteTask}>Завершить</button>
-            <button className='btnEDD' style={{ marginLeft: '20px' }}>Удалить</button>
+            <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleDeleteTask}>Удалить</button>
           </div>
+          {showDeleteConfirmation && (
+            <div className="deleteConfirmationModal">
+              <div className="modalContent">
+                <p>Вы хотите удалить эту задачу?</p>
+                <div>
+                  <button onClick={handleConfirmDelete}>Да</button>
+                  <button onClick={handleCancelDelete}>Нет</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className='rightBlockTaskDetail'>

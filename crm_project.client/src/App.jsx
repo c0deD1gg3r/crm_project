@@ -6,8 +6,9 @@ import { useState, useEffect } from 'react';
 import TaskDetail from '../Components/Sections/TaskDetail/TaskDetail';
 
 const App = () => {
+
+    // Загрузка задач из localStorage
     const [tasks, setTasks] = useState(() => {
-        // Загрузка задач из localStorage
         const savedTasks = localStorage.getItem('tasks');
         return savedTasks ? JSON.parse(savedTasks) : [];
     });
@@ -32,8 +33,8 @@ const App = () => {
         });
     };
 
+    // Сохранение задач в localStorage при изменении
     useEffect(() => {
-        // Сохранение задач в localStorage при изменении
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
 
@@ -42,7 +43,7 @@ const App = () => {
             <Routes>
                 <Route path='/' element={<MainPages addTask={addTask} tasks={tasks} setTasks={setTasks} />} />
                 <Route path='/Login' element={<Login />} />
-                <Route path="/task/:id" element={<TaskDetail tasks={tasks} updateTask={updateTask} />} />
+                <Route path="/task/:id" element={<TaskDetail tasks={tasks} updateTask={updateTask} setTasks={setTasks} />} />
             </Routes>
         </BrowserRouter>
     );

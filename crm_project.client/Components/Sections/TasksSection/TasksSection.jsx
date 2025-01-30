@@ -6,6 +6,7 @@ import { FaCheckCircle, FaExclamationTriangle, FaClock } from 'react-icons/fa';
 const TasksSection = ({ tasks }) => {
   const leftBlockRef = useRef(null);
   const rightBlockRef = useRef(null);
+  const filteredTasks = tasks.filter(task => !task.isDeleted);
 
   const handleScroll = (event) => {
     const { scrollTop } = event.target;
@@ -38,6 +39,13 @@ const TasksSection = ({ tasks }) => {
     );
   };
 
+  const getTaskText = (task) => {
+    if (task.isCompleted) {
+      return <span style={{ textDecoration: 'line-through' }}>{task.title}</span>;
+    }
+    return task.title;
+  };
+
   return (
     <div className="mainBlockContentTasksSection">
       <div
@@ -48,11 +56,11 @@ const TasksSection = ({ tasks }) => {
         <h1 style={{ color: '#242424', fontSize: '20px' }}>Задачи</h1>
         <ul style={{ padding: '10px 0 10px 10px' }}>
           <div style={{ display: 'inline-block' }}>
-            {!!tasks.length && tasks.map((task) => (
+            {filteredTasks.map((task) => (
               <div key={task.id}>
                 <NavLink to={`/task/${task.id}`}>
                   <li style={{ listStyleType: 'none' }}>
-                    #{task.id} {task.title} {getTaskIcon(task)}
+                    #{task.id} {getTaskText(task)} {getTaskIcon(task)}
                   </li>
                 </NavLink>
               </div>
