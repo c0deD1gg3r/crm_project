@@ -18,6 +18,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const inputRef = useRef(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [showCompletedTask, setShowCompletedTask] = useState(false);
 
   useEffect(() => {
     if (task && task.checkLists) {
@@ -37,13 +38,6 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
   if (!task) {
     return <div>Задача не найдена</div>;
   }
-
-  const handleCompleteTask = () => {
-    setIsCompleted(true);
-    const updatedTask = { ...task, isCompleted: true };
-    updateTask(updatedTask);
-    localStorage.setItem(task.id, 'true');
-  };
 
   // Сохранение изменений в задаче
   const saveCheckLists = (updatedLists) => {
@@ -115,7 +109,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
       idx === listIndex
         ? {
           ...list,
-          items: list.items.filter((_, i) => i !== itemIndex),
+          items: list.items.filter((i) => i !== itemIndex),
         }
         : list
     );
@@ -230,6 +224,24 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     setShowDeleteConfirmation(false);
     navigate('/');
   };
+
+  // Завершение задачи
+  const handleCompleteTask = () => {
+    setIsCompleted(true);
+    setShowCompletedTask(true);
+    const updatedTask = { ...task, isCompleted: true };
+    updateTask(updatedTask);
+    localStorage.setItem(task.id, 'true');
+    navigate('/');
+  };
+
+  // Показывать модальное окно, если задача была завершена
+  useEffect(() => {
+    const isTaskCompleted = localStorage.getItem(task.id) === 'true';
+    if (isTaskCompleted) {
+      setShowCompletedTask(true);
+    }
+  }, [task]);
 
   return (
     <div className='mainBlockTaskDetail'>
@@ -362,6 +374,15 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
             <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleCompleteTask}>Завершить</button>
             <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleDeleteTask}>Удалить</button>
           </div>
+          {showCompletedTask && (
+            <div className='completedModal'>
+              <div className='modalContent'>
+                <p>Задача завершена</p>
+                <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleDeleteTask}>Удалить</button>
+              </div>
+            </div>
+          )}
+
           {showDeleteConfirmation && (
             <div className="deleteConfirmationModal">
               <div className="modalContent">
@@ -377,7 +398,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
       </div>
       <div className='rightBlockTaskDetail'>
         <div className='headRightBlockTaskDetail'>
-          <span style={{ fontSize: '13px' }}>Ждёт выполнения до {deadline}</span>
+          <span style={{ fontSize: '13px' }}>Ждёт выполнения до {deadline.split('T')[0]}</span>
         </div>
         <div className='contentRightBlockTasDetail'>
           <p>{getTaskStatus()}</p>
