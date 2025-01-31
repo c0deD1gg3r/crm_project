@@ -110,3 +110,8 @@ input::-webkit-input-placeholder {
   margin-top: 5px;
   color: #333333; 
 }
+
+.linkUserName {
+	text-decoration: none;
+	color: #fff;
+}

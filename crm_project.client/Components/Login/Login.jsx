@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ setUserName }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [errorName, setErrorName] = useState('');
@@ -40,13 +40,15 @@ const Login = () => {
         password: password
       });
 
-      console.log('Login successful:', response.data);
+      console.log('Успешный вход:', response.data);
+      setUserName(name);
       goToMain();
     } catch (error) {
-      console.error('Error logging in:', error);
+      console.error('Ошибка входа:', error);
     }
   };
 
+  // Возврат на мэйн страницу
   const goToMain = () => {
     navigate('/');
   };
