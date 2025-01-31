@@ -3,17 +3,38 @@ import { FaUser } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa";
 import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [errorName, setErrorName] = useState('');
+  const [errorPassword, setErrorPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-      // Отправка POST-запроса с данными пользователя
+    // Сброс предыдущих ошибок
+    setErrorName('');
+    setErrorPassword('');
 
+    let hasError = false;
+
+    // Проверяем, введены ли логин и пароль
+    if (!name.trim()) {
+      setErrorName('Введите логин');
+      hasError = true;
+    }
+    if (!password.trim()) {
+      setErrorPassword('Введите пароль');
+      hasError = true;
+    }
+
+    // Если есть ошибки, выходим из функции
+    if (hasError) return;
+
+    try {
       const response = await axios.post('https://localhost:7297/api/TestUser', {
         name: name,
         password: password
@@ -25,8 +46,9 @@ const Login = () => {
       console.error('Error logging in:', error);
     }
   };
+
   const goToMain = () => {
-    // Возврат на главную страничку
+    navigate('/');
   };
 
   return (
@@ -45,6 +67,7 @@ const Login = () => {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
+
           <div className='inputContainerLogIN'>
             <FaLock className='iconInputLogIN' />
             <input
@@ -55,6 +78,9 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {errorName && <p className="errorText">{errorName}</p>}
+          {errorPassword && <p className="errorText">{errorPassword}</p>}
+
           <button type="submit" className='btn' style={{ width: '100%', height: '50px' }}>Войти</button>
         </form>
       </div>

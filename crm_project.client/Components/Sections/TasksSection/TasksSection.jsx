@@ -68,12 +68,11 @@ const TasksSection = ({ tasks }) => {
           </div>
         </ul>
       </div>
-      <div className="rightBlockTasksSection" ref={rightBlockRef}>
+      {/* <div className="rightBlockTasksSection" ref={rightBlockRef}>
         <div>
           <h1>Контент правого блока</h1>
-          {/* Дополнительный контент */}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
