@@ -39,3 +39,13 @@
 .inputLogIN:focus {
   outline: none;
 }
+
+.errorText {
+  position: relative;
+  color: red;
+  font-size: 14px;
+  margin-top: -20px;
+}
+
+
+

@@ -208,6 +208,10 @@
 	cursor: pointer;
 }
 
+.btnEDD:hover {
+  background-color: #0561ff;
+}
+
 .deleteConfirmationModal {
   position: fixed;
   top: 0;
