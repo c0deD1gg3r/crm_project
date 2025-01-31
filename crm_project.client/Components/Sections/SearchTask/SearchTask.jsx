@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { inputList, inputList2, inputList3 } from "./inputLists";
 import axios from 'axios';
 
-const SearchTask = ({ addTask, setTasks }) => {
+const SearchTask = ({ setTasks }) => {
   const [clearInputText, setClearInputText] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -17,25 +17,6 @@ const SearchTask = ({ addTask, setTasks }) => {
   const [taskTitle, setTaskTitle] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [isCreatingTask, setIsCreatingTask] = useState(false);
-
-  const loginAction = (e) => {
-    setValidationErrors({});
-    e.preventDefault();
-    setIsSubmitting(true);
-    let payload = { email: email, password: password, };
-    axios.post('/api/login', payload)
-      .then((r) => {
-        setIsSubmitting(false);
-        localStorage.setItem('token', r.data.token);
-        navigate("/dashboard");
-      })
-      .catch((e) => {
-        setIsSubmitting(false);
-        if (e.response.data.errors != undefined) {
-          console.log(e.response.data.errors);
-        }
-      });
-  };
 
   // Открытие инпута для добавление полей
   const Open = () => {
@@ -129,7 +110,7 @@ const SearchTask = ({ addTask, setTasks }) => {
       setTaskDescription('');
       setIsCreatingTask(false);
     } catch (error) {
-      console.error('Error creating the task');
+      console.error('Error creating the task', error);
     }
   };
 

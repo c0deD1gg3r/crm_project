@@ -4,8 +4,19 @@ import Login from '../Components/Login/Login';
 import MainPages from '../Components/Pages/MainPages/MainPages';
 import { useState, useEffect } from 'react';
 import TaskDetail from '../Components/Sections/TaskDetail/TaskDetail';
+import Profile from '../Components/Profile/Profile';
 
 const App = () => {
+    const [userName, setUserName] = useState(localStorage.getItem('userName') || '');
+
+    // Сохранение в localStorage при изменении имени пользователя
+    useEffect(() => {
+        if (userName) {
+            localStorage.setItem('userName', userName);
+        } else {
+            localStorage.removeItem('userName');
+        }
+    }, [userName]);
 
     // Загрузка задач из localStorage
     const [tasks, setTasks] = useState(() => {
@@ -41,9 +52,17 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<MainPages addTask={addTask} tasks={tasks} setTasks={setTasks} />} />
-                <Route path='/Login' element={<Login />} />
+                <Route path='/' element={<MainPages
+                    addTask={addTask}
+                    setTasks={setTasks}
+                    tasks={tasks}
+                    userName={userName}
+                    setUserName={setUserName}
+                />}
+                />
+                <Route path='/Login' element={<Login setUserName={setUserName} />} />
                 <Route path="/task/:id" element={<TaskDetail tasks={tasks} updateTask={updateTask} setTasks={setTasks} />} />
+                <Route path="/profile/:profileName" element={<Profile />} />
             </Routes>
         </BrowserRouter>
     );
