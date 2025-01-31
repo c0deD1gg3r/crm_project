@@ -21,7 +21,7 @@ namespace UserApi.Controllers
             UserApi.Model.DefaultUser UserCreating = new UserApi.Model.DefaultUser();
 
             UserCreating.Password = user.Password;
-            UserCreating.Password = DefaultUser.StringSha256Hash(UserCreating.Password);
+            //UserCreating.Password = DefaultUser.StringSha256Hash(UserCreating.Password);
 
             UserCreating.Name = user.Name;
 
