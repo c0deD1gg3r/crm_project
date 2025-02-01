@@ -50,7 +50,7 @@ const Login = ({ setUserName }) => {
 
   // Возврат на мэйн страницу
   const goToMain = () => {
-    navigate('/');
+    navigate('/main');
   };
 
   return (
@@ -69,6 +69,7 @@ const Login = ({ setUserName }) => {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
+          {errorName && <p className="errorText">{errorName}</p>}
 
           <div className='inputContainerLogIN'>
             <FaLock className='iconInputLogIN' />
@@ -80,7 +81,6 @@ const Login = ({ setUserName }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {errorName && <p className="errorText">{errorName}</p>}
           {errorPassword && <p className="errorText">{errorPassword}</p>}
 
           <button type="submit" className='btn' style={{ width: '100%', height: '50px' }}>Войти</button>

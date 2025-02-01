@@ -15,7 +15,7 @@ const Profile = () => {
       return;
     }
 
-    // Таймаут на случай зависания запроса
+    // Таймаут если завис запрос
     const timeout = setTimeout(() => {
       if (loading) {
         setError("Ошибка: Сервер не отвечает.");

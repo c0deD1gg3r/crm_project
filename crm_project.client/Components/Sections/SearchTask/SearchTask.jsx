@@ -131,31 +131,36 @@ const SearchTask = ({ setTasks }) => {
           </div>
           <div style={{ display: 'flex', marginLeft: '55px' }}>
             <div>
-              <button style={{ borderRadius: '5px 0 0 5px' }} className='btn' onClick={handleCreateTaskClick}>СОЗДАТЬ </button>
+              <button style={{ borderRadius: '5px' }} className='btn' onClick={handleCreateTaskClick}>СОЗДАТЬ</button>
+              {isCreatingTask && (
+                <form className="mainCreateTask" onSubmit={handleSubmitTask}>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Название задачи"
+                      value={taskTitle}
+                      onChange={(e) => setTaskTitle(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Описание задачи"
+                      value={taskDescription}
+                      onChange={(e) => setTaskDescription(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <button className="btnSubmit" type="submit">Отправить</button>
+                </form>
+              )}
             </div>
-            {isCreatingTask && (
-              <form onSubmit={handleSubmitTask}>
-                <input
-                  type="text"
-                  placeholder="Название задачи"
-                  value={taskTitle}
-                  onChange={(e) => setTaskTitle(e.target.value)}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Описание задачи"
-                  value={taskDescription}
-                  onChange={(e) => setTaskDescription(e.target.value)}
-                  required
-                />
-                <button type="submit">Отправить</button>
-              </form>
-            )}
 
-            <div className='StrelkaVniz'>
+
+            {/* <div className='StrelkaVniz'>
               <button style={{ borderRadius: '0 5px 5px 0', backgroundColor: '#4277d3' }} className='btn'>&#9660;</button>
-            </div>
+            </div> */}
 
             <div className='inputContainerTasks' ref={containerRef}>
               <div>

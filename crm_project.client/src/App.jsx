@@ -3,8 +3,9 @@ import './App.css';
 import Login from '../Components/Login/Login';
 import MainPages from '../Components/Pages/MainPages/MainPages';
 import { useState, useEffect } from 'react';
-import TaskDetail from '../Components/Sections/TaskDetail/TaskDetail';
+import TaskDetail from '../Components/TaskDetail/TaskDetail';
 import Profile from '../Components/Profile/Profile';
+import TaskDetailMain from '../Components/TaskDetailMain/TaskDetailMain';
 
 const App = () => {
     const [userName, setUserName] = useState(localStorage.getItem('userName') || '');
@@ -52,7 +53,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<MainPages
+                <Route path='/main' element={<MainPages
                     addTask={addTask}
                     setTasks={setTasks}
                     tasks={tasks}
@@ -60,8 +61,13 @@ const App = () => {
                     setUserName={setUserName}
                 />}
                 />
-                <Route path='/Login' element={<Login setUserName={setUserName} />} />
-                <Route path="/task/:id" element={<TaskDetail tasks={tasks} updateTask={updateTask} setTasks={setTasks} />} />
+                <Route path='/' element={<Login setUserName={setUserName} />} />
+                <Route path="/task/:id" element={<TaskDetailMain
+                    addTask={addTask}
+                    setTasks={setTasks}
+                    tasks={tasks}
+                    userName={userName}
+                    setUserName={setUserName} />} />
                 <Route path="/profile/:profileName" element={<Profile />} />
             </Routes>
         </BrowserRouter>
