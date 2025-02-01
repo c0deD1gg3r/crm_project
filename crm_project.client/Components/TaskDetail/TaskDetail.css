@@ -14,7 +14,7 @@
   border-radius: 15px;
   padding: 15px;
   width: 76vw;
-  min-height: 90vh; 
+  min-height: 80vh; 
 }
 
 .leftBlockTaskDetail h2 {
@@ -107,7 +107,6 @@
   cursor: pointer;
   font-size: 12px;
   margin-left: 15px;
-  margin-top: 30px;
   line-height: 16px;
 }
 
@@ -247,5 +246,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.addCheckList {
+  border: none;
+  background-color: transparent;
+  color: rgb(21, 0, 255);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 15px;
+  line-height: 16px;
 }
 

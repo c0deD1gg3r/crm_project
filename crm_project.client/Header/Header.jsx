@@ -7,12 +7,13 @@ const Header = ({ userName, setUserName }) => {
   const handleLogout = () => {
     setUserName('');
     localStorage.removeItem('userName');
+    console.log('Вы вышли из системы');
   };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <NavLink to='/' className='mainPageHeader'>
+        <NavLink to='/main' className='mainPageHeader'>
           <img src={Logo} alt="Logo" />
         </NavLink>
 
@@ -27,9 +28,11 @@ const Header = ({ userName, setUserName }) => {
         {userName ? (
           <>
             <NavLink className='linkUserName' to={`/profile/${userName}`} style={{ marginRight: '50px', fontWeight: 'bold' }}>
-              {userName}
+              <span className='userNameContent'>{userName}</span>
             </NavLink>
-            <button onClick={handleLogout} className='btn'>Выйти</button>
+            <NavLink to='/'>
+              <button onClick={handleLogout} className='btn'>Выйти</button>
+            </NavLink>
           </>
         ) : (
           <NavLink to='/Login'>

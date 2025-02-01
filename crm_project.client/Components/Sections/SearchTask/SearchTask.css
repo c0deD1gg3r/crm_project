@@ -28,10 +28,10 @@
   cursor: pointer;
 }
 
-/* Мне лень было придумывать что-то */
+/* Мне лень было придумывать что-то
 .StrelkaVniz {
   margin-left: -15px;
-}
+} */
 
 .rightBlock {
   display: flex;
@@ -281,4 +281,21 @@
 
 .titleCheckboxBlock:hover .btnTitleCheckboxBlock {
   opacity: 0.8; 
+}
+
+.mainCreateTask {
+  position: absolute;
+  margin-left: -30px;
+}
+
+input::-moz-placeholder {
+  color: #2f2f2f;
+}
+
+input::-webkit-input-placeholder {
+  color: #2f2f2f;
+}
+
+.btnSubmit {
+  width: 9.3vw;
 }

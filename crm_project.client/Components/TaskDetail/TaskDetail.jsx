@@ -17,8 +17,13 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
   const [deadline, setDeadline] = useState(task?.endTime || '');
   const [isCompleted, setIsCompleted] = useState(false);
   const inputRef = useRef(null);
+  const inputListRef = useRef(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showCompletedTask, setShowCompletedTask] = useState(false);
+  const [showListInput, setShowListInput] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingListIndex, setEditingListIndex] = useState(null);
+  const [editingItemIndex, setEditingItemIndex] = useState(null);
 
   useEffect(() => {
     if (task && task.checkLists) {
@@ -53,6 +58,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
       setNewListName('');
       setNewItems([...newItems, '']);
       saveCheckLists(updatedLists);
+      setShowListInput(false);
     }
   };
 
@@ -89,7 +95,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     saveCheckLists(updatedLists);
   };
 
-  // Закрытие поля ввода при клике вне элемента
+  // Закрытие поля ввода при клике вне элемента | для пунктов чек-листа
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (inputRef.current && !inputRef.current.contains(event.target)) {
@@ -103,13 +109,27 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     };
   }, []);
 
+  // Закрытие поля ввода при клике вне элемента | для чек-листов
+  useEffect(() => {
+    const handleClickOutside2 = (event) => {
+      if (inputListRef.current && !inputListRef.current.contains(event.target)) {
+        setShowListInput(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside2);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside2);
+    };
+  }, []);
+
   // Удаление пункта из чек-листа
   const handleDeleteItem = (listIndex, itemIndex) => {
     const updatedLists = checkLists.map((list, idx) =>
       idx === listIndex
         ? {
           ...list,
-          items: list.items.filter((i) => i !== itemIndex),
+          items: list.items.filter((_, i) => i !== itemIndex),
         }
         : list
     );
@@ -164,8 +184,8 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     }
 
     return (
-      <p style={{ backgroundColor: bgColor, padding: '10px', borderRadius: '5px' }}>
-        <span style={{ color: color, fontWeight: '500' }}>{statusText}</span>
+      <p style={{ backgroundColor: bgColor, padding: '10px', borderRadius: '5px', color: color, fontWeight: '500' }}>
+        {statusText}
       </p>
     );
   };
@@ -222,7 +242,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     );
     setTasks(updatedTasks);
     setShowDeleteConfirmation(false);
-    navigate('/');
+    navigate('/main');
   };
 
   // Завершение задачи
@@ -232,7 +252,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     const updatedTask = { ...task, isCompleted: true };
     updateTask(updatedTask);
     localStorage.setItem(task.id, 'true');
-    navigate('/');
+    navigate('/main');
   };
 
   // Показывать модальное окно, если задача была завершена
@@ -242,6 +262,31 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
       setShowCompletedTask(true);
     }
   }, [task]);
+
+  // Редактирование названия чек-листа
+  const handleEditListName = (listIndex, newName) => {
+    const updatedLists = checkLists.map((list, idx) =>
+      idx === listIndex ? { ...list, name: newName } : list
+    );
+    setCheckLists(updatedLists);
+    saveCheckLists(updatedLists);
+  };
+
+  // Редактирование текста пункта чек-листа
+  const handleEditItemText = (listIndex, itemIndex, newText) => {
+    const updatedLists = checkLists.map((list, idx) =>
+      idx === listIndex
+        ? {
+          ...list,
+          items: list.items.map((item, i) =>
+            i === itemIndex ? { ...item, text: newText } : item
+          ),
+        }
+        : list
+    );
+    setCheckLists(updatedLists);
+    saveCheckLists(updatedLists);
+  };
 
   return (
     <div className='mainBlockTaskDetail'>
@@ -267,7 +312,16 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
               return (
                 <div className='mainListTaskDetail' key={listIndex}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <h4>{list.name}</h4>
+                    {isEditing && editingListIndex === listIndex ? (
+                      <input
+                        type="text"
+                        value={list.name}
+                        onChange={(e) => handleEditListName(listIndex, e.target.value)}
+                        onBlur={() => setEditingListIndex(null)}
+                      />
+                    ) : (
+                      <h4 onClick={() => { setIsEditing(true); setEditingListIndex(listIndex); }}>{list.name}</h4>
+                    )}
                     <div className="progressContainer">
                       <div className="progress" style={{ width: `${progressPercentage}%` }}></div>
                     </div>
@@ -304,12 +358,22 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
                                     onChange={() => handleCheckItem(listIndex, itemIndex)}
                                   />
                                   <div style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                                    <span
-                                      className={item.isChecked ? 'checked' : ''}
-                                      style={{ flex: 1 }}
-                                    >
-                                      {item.text}
-                                    </span>
+                                    {isEditing && editingItemIndex === itemIndex ? (
+                                      <input
+                                        type="text"
+                                        value={item.text}
+                                        onChange={(e) => handleEditItemText(listIndex, itemIndex, e.target.value)}
+                                        onBlur={() => setEditingItemIndex(null)}
+                                      />
+                                    ) : (
+                                      <span
+                                        className={item.isChecked ? 'checked' : ''}
+                                        style={{ flex: 1 }}
+                                        onClick={() => { setIsEditing(true); setEditingItemIndex(itemIndex); }}
+                                      >
+                                        {item.text}
+                                      </span>
+                                    )}
                                     <button
                                       className="endButton"
                                       onClick={() => handleDeleteItem(listIndex, itemIndex)}
@@ -352,25 +416,33 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
                         }}
                         placeholder="Добавить новый пункт"
                       />
-                      <button onClick={handleAddItem}>Сохранить</button>
+                      <button className='btnAddListTaskDetail' onClick={handleAddItem}>Сохранить</button>
                     </div>
                   )}
                 </div>
               );
             })}
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-              <input
-                type="text"
-                value={newListName}
-                onChange={(e) => setNewListName(e.target.value)}
-                placeholder="Добавить новый чек-лист"
-              />
-              <button onClick={handleAddList}>Добавить чек-лист</button>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }} ref={inputListRef}>
+              {showListInput ? (
+                <input
+                  type="text"
+                  value={newListName}
+                  onChange={(e) => setNewListName(e.target.value)}
+                  placeholder="Добавить новый чек-лист"
+                />
+              ) : (
+                <button className='addCheckList' onClick={() => setShowListInput(true)}>Добавить чек-лист</button>
+              )}
+              {showListInput && (
+                <button className='addCheckList' onClick={handleAddList}>Сохранить</button>
+              )}
             </div>
           </div>
 
           <div className='btnEDDTaskDetail'>
-            <button className='btnEDD'>Редактировать</button>
+            <button className='btnEDD' onClick={() => setIsEditing(!isEditing)}>
+              {isEditing ? 'Сохранить' : 'Редактировать'}
+            </button>
             <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleCompleteTask}>Завершить</button>
             <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleDeleteTask}>Удалить</button>
           </div>
@@ -401,7 +473,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
           <span style={{ fontSize: '13px' }}>Ждёт выполнения до {deadline.split('T')[0]}</span>
         </div>
         <div className='contentRightBlockTasDetail'>
-          <p>{getTaskStatus()}</p>
+          {getTaskStatus()}
           <ul style={{ marginTop: '20px' }}>
             <li>
               <label>Крайний срок:</label>

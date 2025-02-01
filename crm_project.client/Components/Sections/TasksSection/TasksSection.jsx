@@ -53,9 +53,9 @@ const TasksSection = ({ tasks }) => {
         onScroll={handleScroll}
         ref={leftBlockRef}
       >
-        <h1 style={{ color: '#242424', fontSize: '20px' }}>Задачи</h1>
+        <h1 style={{ color: '#242424', fontSize: '20px', textAlign: 'center' }}>Задачи</h1>
         <ul style={{ padding: '10px 0 10px 10px' }}>
-          <div style={{ display: 'inline-block' }}>
+          <div style={{ display: 'inline-block', lineHeight: '30px' }}>
             {filteredTasks.map((task) => (
               <div key={task.id}>
                 <NavLink to={`/task/${task.id}`}>
