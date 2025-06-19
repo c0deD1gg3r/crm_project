@@ -3,10 +3,12 @@ import './Header.css';
 import { IoSearch } from "react-icons/io5";
 import Logo from '../Img/LogoLawyer10.png';
 
-const Header = ({ userName, setUserName }) => {
+const Header = ({ userName, setUserName, setTasks }) => {
   const handleLogout = () => {
     setUserName('');
+    localStorage.removeItem('token');
     localStorage.removeItem('userName');
+    setTasks([]);
     console.log('Вы вышли из системы');
   };
 
@@ -17,12 +19,12 @@ const Header = ({ userName, setUserName }) => {
           <img src={Logo} alt="Logo" />
         </NavLink>
 
-        <div style={{ marginLeft: '50px' }}>
+        {/* <div style={{ marginLeft: '50px' }}>
           <div className='inputContainer'>
             <input type="text" placeholder='искать сотрудника, документ, прочее...' className='inputHeader' />
             <IoSearch className='icon' />
           </div>
-        </div>
+        </div> */}
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {userName ? (

@@ -6,7 +6,17 @@ import { FaCheckCircle, FaExclamationTriangle, FaClock } from 'react-icons/fa';
 const TasksSection = ({ tasks }) => {
   const leftBlockRef = useRef(null);
   const rightBlockRef = useRef(null);
+  // const role = localStorage.getItem('role');
+  // const username = localStorage.getItem('username');
+  // const isAdmin = role === 'admin';
   const filteredTasks = tasks.filter(task => !task.isDeleted);
+  // const filteredTasks = tasks.filter(task => {
+  //   if (isAdmin) {
+  //     return !task.isDeleted;
+  //   } else {
+  //     return !task.isDeleted && task.creatorName === username;
+  //   }
+  // });
 
   const handleScroll = (event) => {
     const { scrollTop } = event.target;

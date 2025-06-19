@@ -5,12 +5,25 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { FaCheckCircle, FaExclamationTriangle, FaClock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const TaskDetail = ({ tasks, updateTask, setTasks }) => {
+const TaskDetail = ({ tasks, updateTask, setTasks, userRole }) => {
   const { id } = useParams();
   const task = tasks.find(task => task.id.toString() === id);
   const navigate = useNavigate();
 
-  const [checkLists, setCheckLists] = useState([]);
+  // if (!task) {
+  //   return <div>Задача не найдена</div>;
+  // }
+
+  const storageKey = `task_${id}_checklists`;
+
+  // Загрузка из localStorage
+  const loadFromLocalStorage = () => {
+    if (!task) return [];
+    const saved = localStorage.getItem(`task_${task.id}_checklists`);
+    return saved ? JSON.parse(saved) : task?.checkLists || [];
+  };
+
+  const [checkLists, setCheckLists] = useState(loadFromLocalStorage());
   const [newListName, setNewListName] = useState('');
   const [newItems, setNewItems] = useState([]);
   const [currentListIndex, setCurrentListIndex] = useState(null);
@@ -25,29 +38,44 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
   const [editingListIndex, setEditingListIndex] = useState(null);
   const [editingItemIndex, setEditingItemIndex] = useState(null);
 
+  // Инициализация состояния при монтировании компонента
   useEffect(() => {
-    if (task && task.checkLists) {
-      setCheckLists(task.checkLists);
-      setNewItems(new Array(task.checkLists.length).fill(''));
-      setDeadline(task.endTime);
-    }
+    if (task) {
+      const savedCheckLists = loadFromLocalStorage();
+      const initialCheckLists = savedCheckLists.length > 0 ? savedCheckLists : (task.checkLists || []);
 
-    const savedStatus = localStorage.getItem(task.id);
-    if (savedStatus !== null) {
-      setIsCompleted(savedStatus === 'true');
-    } else {
+      setCheckLists(initialCheckLists);
+      setNewItems(new Array(initialCheckLists.length).fill(''));
+      setDeadline(task.endTime || '');
       setIsCompleted(task.isCompleted || false);
+
+      if (savedCheckLists.length === 0 && task.checkLists) {
+        localStorage.setItem(storageKey, JSON.stringify(task.checkLists));
+      }
     }
   }, [task]);
 
-  if (!task) {
-    return <div>Задача не найдена</div>;
-  }
+  // Сохранение изменений в localStorage при обновлении checkLists
+  useEffect(() => {
+    if (task) {
+      localStorage.setItem(storageKey, JSON.stringify(checkLists));
+    }
+  }, [checkLists, task]);
 
-  // Сохранение изменений в задаче
   const saveCheckLists = (updatedLists) => {
-    const updatedTask = { ...task, checkLists: updatedLists, endTime: deadline };
+    setCheckLists(updatedLists);
+    if (!task) return;
+
+    const updatedTask = {
+      ...task,
+      checkLists: updatedLists,
+      endTime: deadline,
+    };
+
+    console.log('Сохранение задачи с чек-листом:', updatedTask);
     updateTask(updatedTask);
+
+    localStorage.setItem(storageKey, JSON.stringify(updatedLists));
   };
 
   // Добавление нового чек-листа
@@ -140,7 +168,10 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
   // Удаление чек-листа
   const handleDeleteCheckList = (listIndex) => {
     const updatedLists = checkLists.filter((_, idx) => idx !== listIndex);
+    const updatedNewItems = newItems.filter((_, idx) => idx !== listIndex);
+
     setCheckLists(updatedLists);
+    setNewItems(updatedNewItems);
     saveCheckLists(updatedLists);
   };
 
@@ -194,16 +225,16 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
   const getTaskStatus2 = () => {
     const currentDate = new Date();
     const deadlineDate = new Date(deadline);
-
-    if (isCompleted) return <span style={{ color: 'green', fontWeight: 'bold' }}>Задача выполнена</span>;
-    if (currentDate > deadlineDate) return <span style={{ color: 'red', fontWeight: 'bold' }}>Задача просрочена</span>;
+    if (isCompleted) {
+      return <span style={{ color: 'green', fontWeight: 'bold' }}>Задача выполнена</span>;
+    } else if (currentDate > deadlineDate) return <span style={{ color: 'red', fontWeight: 'bold' }}>Задача просрочена</span>;
     return <span style={{ color: 'orange', fontWeight: 'bold' }}>Задача в процессе</span>;
   };
 
   // Обновление иконки по статусу задачи
   const getTaskIcon = () => {
     const currentDate = new Date();
-    const deadlineDate = new Date(task.endTime);
+    const deadlineDate = new Date(task?.endTime);
     let icon, tooltipText;
 
     if (isCompleted) {
@@ -242,24 +273,35 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     );
     setTasks(updatedTasks);
     setShowDeleteConfirmation(false);
+    localStorage.removeItem(`task_${task.id}_checklists`);
     navigate('/main');
   };
 
   // Завершение задачи
   const handleCompleteTask = () => {
+    const updatedTask = {
+      ...task,
+      isCompleted: true,
+      endTime: task.endTime,
+      checkLists: checkLists
+    };
+
+    console.log('Выполнение заданий с помощью чек-листов:', updatedTask);
+    updateTask(updatedTask);
     setIsCompleted(true);
     setShowCompletedTask(true);
-    const updatedTask = { ...task, isCompleted: true };
-    updateTask(updatedTask);
-    localStorage.setItem(task.id, 'true');
+    localStorage.setItem(`task_${task.id}_completed`, 'true');
+    localStorage.removeItem(`task_${task.id}_checklists`);
     navigate('/main');
   };
 
   // Показывать модальное окно, если задача была завершена
   useEffect(() => {
-    const isTaskCompleted = localStorage.getItem(task.id) === 'true';
-    if (isTaskCompleted) {
+    // const isTaskCompleted = localStorage.getItem(task?.id) === 'true';
+    if (task?.isCompleted) {
       setShowCompletedTask(true);
+    } else {
+      setShowCompletedTask(false);
     }
   }, [task]);
 
@@ -288,21 +330,36 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
     saveCheckLists(updatedLists);
   };
 
+  const formatDateTime = (dateString) => {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}.${month}.${day} ${hours}:${minutes}`;
+  };
+
   return (
     <div className='mainBlockTaskDetail'>
       <div>
         <div>
           <h1 style={{ fontWeight: '400', fontSize: '1.8rem', padding: '10px 0 5px 10px' }}>
-            {String(task.id).slice(2, 6)} - ({task.createdAt}) {task.title}
+            {String(task?.id)} - ({formatDateTime(task?.createdAt)}) {task?.title}
           </h1>
         </div>
         <div className='leftBlockTaskDetail'>
           <div className='checkListTaskDetail'>
             <div>
-              <h2>Задача №{task.id} - {getTaskStatus2()} {getTaskIcon(task)}</h2>
+              <h2>Задача №{task?.id} - {getTaskStatus2()} {getTaskIcon(task)}</h2>
             </div>
             <div className='descriptionBlock'>
-              <p>{task.description}</p>
+              <p>{task?.description}</p>
             </div>
             {checkLists.map((list, listIndex) => {
               const totalItems = list.items.length;
@@ -390,20 +447,22 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
                       )}
                     </Droppable>
                   </DragDropContext>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <button
-                      className='btnAddListTaskDetail'
-                      onClick={() => setCurrentListIndex(listIndex)}
-                    >
-                      + <span>Добавить пункт</span>
-                    </button>
-                    <button
-                      className='btnDeleteListTaskDetail'
-                      onClick={() => handleDeleteCheckList(listIndex)}
-                    >
-                      Удалить чек-лист
-                    </button>
-                  </div>
+                  {userRole === 'admin' && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <button
+                        className='btnAddListTaskDetail'
+                        onClick={() => setCurrentListIndex(listIndex)}
+                      >
+                        + <span>Добавить пункт</span>
+                      </button>
+                      <button
+                        className='btnDeleteListTaskDetail'
+                        onClick={() => handleDeleteCheckList(listIndex)}
+                      >
+                        Удалить чек-лист
+                      </button>
+                    </div>
+                  )}
                   {currentListIndex === listIndex && (
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }} ref={inputRef}>
                       <input
@@ -416,46 +475,52 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
                         }}
                         placeholder="Добавить новый пункт"
                       />
-                      <button className='btnAddListTaskDetail' onClick={handleAddItem}>Сохранить</button>
+                      <button style={{ marginTop: '15px' }} className='btnAddListTaskDetail' onClick={handleAddItem}>Сохранить</button>
                     </div>
                   )}
                 </div>
               );
             })}
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }} ref={inputListRef}>
-              {showListInput ? (
-                <input
-                  type="text"
-                  value={newListName}
-                  onChange={(e) => setNewListName(e.target.value)}
-                  placeholder="Добавить новый чек-лист"
-                />
-              ) : (
-                <button className='addCheckList' onClick={() => setShowListInput(true)}>Добавить чек-лист</button>
-              )}
-              {showListInput && (
-                <button className='addCheckList' onClick={handleAddList}>Сохранить</button>
+            <div className="addCheckListContainer" ref={inputListRef}>
+              {userRole === 'admin' && (
+                <>
+                  {showListInput ? (
+                    <>
+                      <input
+                        type="text"
+                        value={newListName}
+                        onChange={(e) => setNewListName(e.target.value)}
+                        placeholder="Добавить новый чек-лист"
+                      />
+                      <button className='addCheckList' onClick={handleAddList}>Сохранить</button>
+                    </>
+                  ) : (
+                    <button className='addCheckList' onClick={() => setShowListInput(true)}>Добавить чек-лист</button>
+                  )}
+                </>
               )}
             </div>
           </div>
 
-          <div className='btnEDDTaskDetail'>
-            <button className='btnEDD' onClick={() => setIsEditing(!isEditing)}>
-              {isEditing ? 'Сохранить' : 'Редактировать'}
-            </button>
-            <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleCompleteTask}>Завершить</button>
-            <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleDeleteTask}>Удалить</button>
-          </div>
+          {userRole === 'admin' && (
+            <div className='btnEDDTaskDetail'>
+              <button className='btnEDD' onClick={() => setIsEditing(!isEditing)}>
+                {isEditing ? 'Сохранить' : 'Редактировать'}
+              </button>
+              <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleCompleteTask}>Завершить</button>
+              {/* <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleDeleteTask}>Удалить</button> */}
+            </div>
+          )}
           {showCompletedTask && (
             <div className='completedModal'>
               <div className='modalContent'>
                 <p>Задача завершена</p>
-                <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleDeleteTask}>Удалить</button>
+                {/* <button className='btnEDD' style={{ marginLeft: '20px' }} onClick={handleDeleteTask}>Удалить</button> */}
               </div>
             </div>
           )}
 
-          {showDeleteConfirmation && (
+          {/* {showDeleteConfirmation && (
             <div className="deleteConfirmationModal">
               <div className="modalContent">
                 <p>Вы хотите удалить эту задачу?</p>
@@ -465,7 +530,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
       <div className='rightBlockTaskDetail'>
@@ -477,17 +542,19 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
           <ul style={{ marginTop: '20px' }}>
             <li>
               <label>Крайний срок:</label>
-              <input
-                type="date"
-                value={deadline.split('T')[0]}
-                onChange={(e) => {
-                  setDeadline(e.target.value);
-                  const updatedTask = { ...task, endTime: e.target.value };
-                  updateTask(updatedTask);
-                }}
-              />
+              {userRole === 'admin' && (
+                <input
+                  type="date"
+                  value={deadline.split('T')[0]}
+                  onChange={(e) => {
+                    setDeadline(e.target.value);
+                    const updatedTask = { ...task, endTime: e.target.value };
+                    updateTask(updatedTask);
+                  }}
+                />
+              )}
             </li>
-            <li>Поставлена: {task.createdAt} {new Date(task.startTime).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</li>
+            <li>Поставлена: {task?.createdAt} {new Date(task?.startTime).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</li>
             <li style={{ display: 'flex' }}>
               Стадия:{' '}
 
@@ -516,8 +583,8 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
             </li>
           </ul>
           <ul style={{ marginTop: '70px' }}>
-            <li>Постановщик</li>
-            <li>
+            <li>Постановщик: <b>{task?.creatorName}</b></li>
+            {/* <li>
               Исполнитель
               <button className='btnAddListRightTaskDetail'>Добавить</button>
             </li>
@@ -528,7 +595,7 @@ const TaskDetail = ({ tasks, updateTask, setTasks }) => {
             <li>
               Наблюдатель
               <button className='btnAddListRightTaskDetail'>Добавить</button>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

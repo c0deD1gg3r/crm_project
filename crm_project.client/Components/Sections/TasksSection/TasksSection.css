@@ -14,8 +14,8 @@ body {
   position: relative; 
   padding: 50px 0 0 30px;
   background-color: #fff;
-  min-height: 68vh;
-  max-height: 68vh; 
+  min-height: 73vh;
+  max-height: 73vh; 
   overflow-y: auto; 
   resize: horizontal; 
   border-radius: 15px;

@@ -1,0 +1,101 @@
+.profile-container {
+
+}
+
+.mainBlockProfileContent {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.firstContent {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 45vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.firstContent h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+}
+
+.info-label {
+  font-weight: bold;
+  width: 120px;
+  color: #555;
+}
+
+.info-value {
+  flex: 1;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 5px;
+}
+
+.profile-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.btnRefac {
+  background-color: #437ee4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 4px;
+  margin-top: 40px;
+  align-self: flex-start;
+  width: 20vw;
+}
+
+.btnRefac2 {
+  background-color: #437ee4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 4px;
+  margin-top: auto;
+  align-self: flex-start;
+  width: 10vw;
+}
+
+.btnRefac:hover {
+  background-color: #3366cc;
+}
+
+.button-group {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
