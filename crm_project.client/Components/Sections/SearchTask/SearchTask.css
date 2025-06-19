@@ -28,10 +28,10 @@
   cursor: pointer;
 }
 
-/* Мне лень было придумывать что-то */
+/* Мне лень было придумывать что-то
 .StrelkaVniz {
   margin-left: -15px;
-}
+} */
 
 .rightBlock {
   display: flex;
@@ -198,7 +198,8 @@
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
-  width: 40vw; 
+  /* width: 40vw;   */
+  width: 29vw;
   gap: 15px; 
   position: absolute;
   background-color: #fff;
@@ -281,4 +282,84 @@
 
 .titleCheckboxBlock:hover .btnTitleCheckboxBlock {
   opacity: 0.8; 
+}
+
+.create-task-container {
+  position: relative;
+  display: inline-block;
+}
+
+.mainCreateTask {
+  position: absolute;
+  top: 100%;
+  left: -110px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px  rgba(0, 0, 0, 0.3);
+  width: 300px;
+  z-index: 1000;
+}
+
+.mainCreateTask input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  text-align: center;
+}
+
+.mainCreateTask input::placeholder {
+  color: #999;
+  text-align: center;
+}
+
+.mainCreateTask input:focus {
+  outline: none;
+  border-color: #437ee4;
+  box-shadow: 0 0 0 2px rgba(67, 126, 228, 0.2);
+}
+
+
+.inputPimput {
+  background-color: #fff;
+  border-radius: 15px;
+  border: none;
+}
+
+
+
+input::-moz-placeholder {
+  color: #2f2f2f;
+}
+
+input::-webkit-input-placeholder {
+  color: #2f2f2f;
+}
+
+.btnSubmit {
+  background-color: #437ee4;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.btnSubmit:hover {
+  background-color: #3366cc;
+}
+
+.btnSubmit:active {
+  background-color: #2a55a5;
 }

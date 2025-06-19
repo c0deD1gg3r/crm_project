@@ -44,10 +44,7 @@ namespace TaskApi.Controller
                 return NotFound();
             }
 
-            TaskItem.Title = task.Title;
-            TaskItem.Description = task.Description;
-            TaskItem.StartTime = task.StartTime;
-            TaskItem.EndTime = task.EndTime;
+            TaskItem.SetNewData(task);
 
             try
             {
@@ -67,11 +64,9 @@ namespace TaskApi.Controller
             var newTask = new TestTask
             {
                 Id = Random.Shared.Next(),
-                Title = task.Title,
-                Description = task.Description,
-                StartTime = task.StartTime,
-                EndTime = task.EndTime
             };
+
+            newTask.SetNewData(task);
 
             _taskContext.Tasks.Add(newTask);
             await _taskContext.SaveChangesAsync();

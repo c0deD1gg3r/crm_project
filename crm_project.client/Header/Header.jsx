@@ -3,47 +3,44 @@ import './Header.css';
 import { IoSearch } from "react-icons/io5";
 import Logo from '../Img/LogoLawyer10.png';
 
-const Header = () => {
-  const buttons = document.querySelectorAll(".btn");
-  buttons.forEach((button) => {
-    button.onclick = function (e) {
-      let x = e.clientX - e.target.offsetLeft;
-      let y = e.clientY - e.target.offsetTop;
-      let ripple = document.createElement("span");
-      ripple.style.left = `${x}px`;
-      ripple.style.top = `${y}px`;
-      this.appendChild(ripple);
-      setTimeout(function () {
-        ripple.remove();
-      }, 600);
-    };
-  });
+const Header = ({ userName, setUserName, setTasks }) => {
+  const handleLogout = () => {
+    setUserName('');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    setTasks([]);
+    console.log('Вы вышли из системы');
+  };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex' }}>
-        <div>
-          <NavLink to='/' className='mainPageHeader'>
-            <img src={Logo} alt="" />
-          </NavLink>
-        </div>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <NavLink to='/main' className='mainPageHeader'>
+          <img src={Logo} alt="Logo" />
+        </NavLink>
 
-        <div style={{ marginLeft: '50px' }}>
+        {/* <div style={{ marginLeft: '50px' }}>
           <div className='inputContainer'>
-            <input
-              type="text"
-              placeholder='искать сотрудника, документ, прочее...'
-              className='inputHeader'
-            />
+            <input type="text" placeholder='искать сотрудника, документ, прочее...' className='inputHeader' />
             <IoSearch className='icon' />
           </div>
-        </div>
+        </div> */}
       </div>
-
-      <div style={{ display: 'flex' }}>
-        <NavLink to='/Login'>
-          <button style={{ width: '5vw' }} className='btn'>Войти</button>
-        </NavLink>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {userName ? (
+          <>
+            <NavLink className='linkUserName' to={`/profile/${userName}`} style={{ marginRight: '50px', fontWeight: 'bold' }}>
+              <span className='userNameContent'>{userName}</span>
+            </NavLink>
+            <NavLink to='/'>
+              <button onClick={handleLogout} className='btn'>Выйти</button>
+            </NavLink>
+          </>
+        ) : (
+          <NavLink to='/Login'>
+            <button className='btn'>Войти</button>
+          </NavLink>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-.loginMainContentBlock {
+.registerMainContentBlock {
   max-width: 500px;
   height: fit-content;
   margin: 0 auto;
@@ -10,7 +10,7 @@
   margin-top: 13%;
 }
 
-.inputContainerLogIN {
+.inputContainerRegister {
   display: flex;
   align-items: center;
   border-bottom: 1px solid black;
@@ -19,24 +19,24 @@
   color: #fff;
 }
 
-.iconInputLogIN {
+.iconInputRegister {
   margin-right: 1rem; 
   font-size: 14px;
 }
 
-.inputLogIN {
+.inputRegister {
   border: none;
   background-color: transparent;
   color: #fff;
 }
 
-.inputLogIN::-webkit-input-placeholder {
+.inputRegister::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.8);
   opacity: 0.9;
   color: #fff;
 }
 
-.inputLogIN:focus {
+.inputRegister:focus {
   outline: none;
 }
 

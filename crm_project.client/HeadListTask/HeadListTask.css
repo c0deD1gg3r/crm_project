@@ -4,19 +4,6 @@
   justify-content: center;
 }
 
-.leftLink li {
-  display: inline;
-  padding: 1vw;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.leftLink {
-  border: 1px solid #ffffffdb;
-  padding: 15px;
-  border-radius: 30px;
-} 
-
 .rightLink {
   margin-left: 20px;
   border: 1px solid #ffffffdb;

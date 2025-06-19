@@ -6,11 +6,15 @@
 }
 
 .leftBlockTaskDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
   background-color: #fff;
   color: #242424;
   border-radius: 15px;
   padding: 15px;
-  width: 77vw;
+  width: 76vw;
+  min-height: 80vh; 
 }
 
 .leftBlockTaskDetail h2 {
@@ -19,14 +23,13 @@
   line-height: 30px;
 }
 
-
-.checkListTaskDetail {
- 
-}
-
 .descriptionBlock {
   margin-top: 15px;
   border-bottom: 1px solid #24242453;
+}
+
+.descriptionBlock p {
+  margin-bottom: 50px;
 }
 
 .rightBlockTaskDetail {
@@ -71,7 +74,6 @@
 
 .contentRightBlockTasDetail p {
   text-align: center;
-  background-color: rgb(224, 136, 133);
   padding: 5px;
   border-radius: 5px;
 }
@@ -100,29 +102,67 @@
 .btnAddListTaskDetail {
   border: none;
   background-color: transparent;
-  color: rgb(0, 110, 255);
+  color: rgb(93, 155, 255);
   font-weight: bold;
   cursor: pointer;
   font-size: 12px;
-  margin-left: 15px;
-  margin-top: 30px;
   line-height: 16px;
-  border-bottom: 2px dotted rgb(0, 110, 255);;
+  margin-top: 30px;
+}
+
+.btnAddListTaskDetail span {
+  border-bottom: 2px dotted rgb(93, 155, 255);
+}
+
+.btnAddListTaskDetail span:hover {
+  border-bottom: 2px dotted rgba(0, 110, 255, 0.948);
 }
 
 .btnAddListTaskDetail:hover {
   opacity: 0.8;
   color: rgba(0, 110, 255, 0.948);
-  border-bottom: 2px dotted rgba(0, 110, 255, 0.948);
 }
 
 .mainListTaskDetail {
-  margin: 20px;
+  margin: 10px;
   background-color: #363636;
-  width: 30vw;
+  width: 73vw;
   color: #fff; 
   padding: 10px;
   border-radius: 10px;
+}
+
+.mainListTaskDetail input[type="text"] {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #242424;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+}
+
+.mainListTaskDetail input[type="text"]:focus {
+  outline: none;
+  border-color: #437ee4;
+  box-shadow: 0 0 0 2px rgba(67, 126, 228, 0.2);
+}
+
+.mainListTaskDetail .btnAddListTaskDetail[type="button"] {
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mainListTaskDetail .btnAddListTaskDetail[type="button"]:hover {
+  background-color: #45a049;
 }
 
 .checkListItem {
@@ -171,10 +211,19 @@
   font-size: 12px;
   margin-left: 15px;
   margin-top: 30px;
+  border-bottom: 2px dotted rgb(245, 85, 98);
+}
+
+.btnDeleteListTaskDetail:hover {
+  color: red;
+  border-bottom: 2px dotted red;
 }
 
 .btnEDDTaskDetail {
-  margin-top: 10px;
+  margin-top: auto;
+  display: flex; 
+  justify-content: flex-start; 
+  padding-top: 10px;
 }
 
 .btnEDD {
@@ -190,4 +239,81 @@
 	vertical-align: top;
 	cursor: pointer;
 }
+
+.btnEDD:hover {
+  background-color: #0561ff;
+}
+
+.deleteConfirmationModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.modalContent button {
+  margin: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.completedModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addCheckList {
+  border: none;
+  background-color: transparent;
+  color: rgb(21, 0, 255);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 15px;
+  line-height: 16px;
+}
+
+.addCheckListContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.addCheckListContainer input[type="text"] {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #242424;
+  transition: all 0.3s ease;
+}
+
+.addCheckListContainer input[type="text"]:focus {
+  outline: none;
+  border-color: #437ee4;
+  box-shadow: 0 0 0 2px rgba(67, 126, 228, 0.2);
+}
+
 
